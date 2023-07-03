@@ -12,7 +12,8 @@ class ScreenshotCell: UICollectionViewCell {
     @IBOutlet weak var screenshotImageView: UIImageView!
     
     func configure(with screenshot: UIImage) {
-//        screenshotImageView.image = screenshot
+        
+        screenshotImageView.image = screenshot
     }
 }
 

@@ -15,6 +15,7 @@ struct App {
     let iconImage: UIImage
     let screenshotImage: UIImage
     let screenshotImageUrls: [String]
+    let releaseNotes: String
     let description: String
     
     
