@@ -12,40 +12,66 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tableView: UITableView!
     
     var searchResults: [App] = []
-    var recentSearches: [String] = ["Game", "Music", "Weather"] // 예시 최근 검색어
+    var recentSearches: [String] = []
+    
+    var activityIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUI()
+        fetchRecentSearches()
+    }
+    
+    private func setupUI() {
+        view.backgroundColor = .white
         searchBar.delegate = self
         tableView.dataSource = self
         tableView.delegate = self
+        
+        activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
+    }
+    
+    private func fetchRecentSearches() {
+        // Fetch recent searches from data source
+        recentSearches = ["Music Player", "Calculator", "Weather App", "Music Downloader"]
+        tableView.reloadData()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
             // 검색어 입력이 없을 경우 최근 검색어 목록 표시
             searchResults = []
-            tableView.reloadData()
+            //            tableView.reloadData()
         } else {
             // 최근 검색어에서 일치하는 항목 필터링
-            searchResults = recentSearches.map { App(name: $0, rating: 0, iconImage: UIImage(), screenshotImage: UIImage(), description: "") }
-            tableView.reloadData()
+            searchResults = recentSearches.map { App(name: $0, rating: 0, userRatingCount: 0, iconImage: UIImage(), screenshotImage: UIImage(), screenshotImageUrls: [String](), description: "") }
+            //            tableView.reloadData()
         }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
+        print("click")
+        activityIndicator.startAnimating()
         
-        // 검색어를 이용하여 앱스토어 API를 호출하고 검색 결과를 받아옵니다.
+        // 앱스토어 API 호출
         searchAppStore(with: searchText) { [weak self] results in
-            self?.searchResults = results
-            self?.tableView.reloadData()
+            DispatchQueue.main.async {
+                print("main")
+                self?.searchResults = results
+                self?.tableView.reloadData()
+                
+                self?.activityIndicator.stopAnimating()
+            }
         }
         
+        print("add")
         // 최근 검색어에 추가
         recentSearches.append(searchText)
-        searchBar.text = ""
+        //        searchBar.text = ""
         searchBar.resignFirstResponder()
     }
     
@@ -56,20 +82,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! SearchResultCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell", for: indexPath) as! SearchResultCell
         let app = searchResults[indexPath.row]
         cell.configure(with: app)
+        
         return cell
     }
     
     // MARK: - Navigation
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("aaa")
         let app = searchResults[indexPath.row]
         performSegue(withIdentifier: "DetailSegue", sender: app)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("bbbb")
         if segue.identifier == "DetailSegue", let app = sender as? App {
             let detailViewController = segue.destination as! DetailViewController
             detailViewController.app = app
@@ -84,7 +113,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             return
         }
         
-        let urlString = "https://itunes.apple.com/search?term=\(encodedTerm)&country=us&entity=software"
+        let countryCode = "kr"
+        
+        let urlString = "https://itunes.apple.com/search?term=\(encodedTerm)&country=\(countryCode)&entity=software"
         
         guard let url = URL(string: urlString) else {
             completion([])
@@ -105,6 +136,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 if let name = result["trackName"] as? String,
                    let artist = result["artistName"] as? String,
                    let rating = result["averageUserRating"] as? Double,
+                   let userRatingCount = result["userRatingCount"] as? Int,
                    let iconUrlString = result["artworkUrl100"] as? String,
                    let screenshotUrls = result["screenshotUrls"] as? [String],
                    let iconUrl = URL(string: iconUrlString),
@@ -117,7 +149,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     
                     let description = result["description"] as? String ?? ""
                     
-                    let app = App(name: name, rating: rating, iconImage: iconImage, screenshotImage: screenshotImage, description: description)
+                    let app = App(name: name, rating: rating, userRatingCount: userRatingCount,  iconImage: iconImage, screenshotImage: screenshotImage, screenshotImageUrls: screenshotUrls, description: description)
                     apps.append(app)
                 }
             }
@@ -126,5 +158,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         
         task.resume()
+        
     }
 }
