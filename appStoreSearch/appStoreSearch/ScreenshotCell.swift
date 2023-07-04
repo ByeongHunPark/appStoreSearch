@@ -17,6 +17,10 @@ class ScreenshotCell: UICollectionViewCell {
     }
     
     func setCornerRadius(_ radius: CGFloat) {
+        screenshotImageView.layer.shadowColor = UIColor.systemGray2.cgColor
+        screenshotImageView.layer.shadowOpacity = 0.8
+        screenshotImageView.layer.shadowRadius = radius
+        
         screenshotImageView.layer.cornerRadius = radius
         screenshotImageView.layer.borderWidth = 0.1
         screenshotImageView.layer.borderColor = UIColor.systemGray3.cgColor

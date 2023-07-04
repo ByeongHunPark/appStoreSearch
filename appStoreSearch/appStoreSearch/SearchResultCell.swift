@@ -42,17 +42,19 @@ class SearchResultCell: UITableViewCell {
         
     }
     
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 12, right: 0))
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 40, right: 0))
+
     }
     
     private func setupUI(){
         downloadBtn.titleLabel?.textColor = UIColor.systemBlue
         downloadBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
         downloadBtn.backgroundColor = UIColor.systemGray6
-        
+        downloadBtn.isUserInteractionEnabled = false
         downloadBtn.layer.cornerRadius = 10
     }
     
@@ -106,6 +108,7 @@ extension SearchResultCell: UICollectionViewDataSource, UICollectionViewDelegate
         return cell
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // 컬렉션뷰 셀의 크기 설정
         
@@ -135,4 +138,3 @@ extension SearchResultCell: UICollectionViewDataSource, UICollectionViewDelegate
     }
     
 }
-

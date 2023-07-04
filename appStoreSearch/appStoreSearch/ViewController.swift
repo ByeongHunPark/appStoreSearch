@@ -18,6 +18,8 @@ class ViewController: UIViewController {
     
     var searchResults: [App] = []
     
+    var selectedIndexPath = [IndexPath]()
+    
     var searchHistory: [String] = []
     var filteredSearchHistory: [String] = []
     var activityIndicator: UIActivityIndicatorView!
@@ -28,6 +30,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         setupUI()
+        
+        hideKeyboardWhenTappedAround()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,17 +60,25 @@ class ViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        
         tableView.keyboardDismissMode = .onDrag
         historySerachTableView.keyboardDismissMode = .onDrag
         
-        tableView.separatorStyle = .none
         
         searchBar.searchBarStyle = .minimal
         
-        activityIndicator = UIActivityIndicatorView(style: .medium)
+        searchBar.searchTextField.clearButtonMode = .always
+        if let button = searchBar.searchTextField.value(forKey: "_clearButton") as? UIButton{
+            button.addTarget(self, action: #selector(clearBtnClicked), for: .touchUpInside)
+        }
+        
+        
+        activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.center = view.center
         view.addSubview(activityIndicator)
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -77,7 +89,7 @@ class ViewController: UIViewController {
     }
     
     // MARK: - App Store API
-    
+    // TODO: 상위 5개만 보이게 하기 + 아래 더보기로 나머지 불러오기
     func searchAppStore(with term: String, completion: @escaping ([App]) -> Void) {
         guard let encodedTerm = term.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
             completion([])
@@ -86,7 +98,7 @@ class ViewController: UIViewController {
         
         let countryCode = "kr"
         
-        let urlString = "https://itunes.apple.com/search?term=\(encodedTerm)&country=\(countryCode)&entity=software"
+        let urlString = "https://itunes.apple.com/search?term=\(encodedTerm)&country=\(countryCode)&entity=software&limit=5"
         
         guard let url = URL(string: urlString) else {
             completion([])
@@ -152,7 +164,7 @@ class ViewController: UIViewController {
         
         view.constraints.filter { $0.firstItem === searchBar && $0.firstAttribute == .trailing }.forEach { $0.isActive = false }
         
-        searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
+        searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
         
         view.constraints.filter { $0.firstItem === searchBar && $0.firstAttribute == .top }.forEach { $0.isActive = false }
         
@@ -162,58 +174,75 @@ class ViewController: UIViewController {
         
         historySerachTableView.reloadData()
         
-        searchBar.resignFirstResponder()
+        //        searchBar.resignFirstResponder()
+    }
+    
+    @IBAction func clearBtnClicked(_ sender: Any) {
         
+        searchBar.text = ""
+        
+        
+        mainViewCheck()
+        
+        headerUse = true
+        // TODO: 키보드 올라오게 하기
         
     }
+    
 }
 
 extension ViewController: UISearchBarDelegate {
     
+    // MARK: 필터링 될 때마다 키보드 내려감(시뮬레이터) 수정 필요
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty || searchBar.text == "" {
-            // 검색어 입력이 없을 경우 최근 검색어 목록 표시
             filteredSearchHistory = searchHistory
-            
+            headerUse = true
         } else {
-            // 최근 검색어에서 일치하는 항목 필터링
             filteredSearchHistory = searchHistory.filter { $0.lowercased().contains(searchText.lowercased()) }
         }
         
-        mainViewCheck()
-        
         historySerachTableView.reloadData()
     }
     
+    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        
         topView.isHidden = true
+        
+        mainViewCheck()
         
         cancelBtn.isHidden = false
         
-        searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -70).isActive = true
+        searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -60).isActive = true
         
         searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
         
-        cancelBtn.leadingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: 0).isActive = true
+        cancelBtn.leadingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: -8).isActive = true
         
         headerUse = false
         historySerachTableView.tableHeaderView = nil
-        
-        historySerachTableView.reloadData()
     }
     
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        
+        print("cancel button")
+        
         topView.isHidden = false
         
         searchBar.text = ""
         
+        searchBar.resignFirstResponder()
         
         mainViewCheck()
         headerUse = true
         
         cancelBtn.isHidden = true
         
-        searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
+        view.constraints.filter { $0.firstItem === searchBar && $0.firstAttribute == .trailing }.forEach { $0.isActive = false }
+        
+        searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
         
         view.constraints.filter { $0.firstItem === searchBar && $0.firstAttribute == .top }.forEach { $0.isActive = false }
         
@@ -223,8 +252,10 @@ extension ViewController: UISearchBarDelegate {
         
         historySerachTableView.reloadData()
         
-        searchBar.resignFirstResponder()
+        
     }
+    
+    // TODO: 테이블 뷰 맨위로 올라가는 기능 + x button 동작 변경
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
@@ -251,6 +282,11 @@ extension ViewController: UISearchBarDelegate {
         
         UserDefaults.standard.set(Array(removedDuplicate), forKey: "searchHistory")
         UserDefaults.standard.synchronize()
+        
+        filteredSearchHistory = searchHistory
+        
+        historySerachTableView.reloadData()
+        
         
         searchBar.resignFirstResponder()
     }
@@ -285,6 +321,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         
         if tableView == self.tableView{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell", for: indexPath) as! SearchResultCell
+            
             let app = searchResults[indexPath.row]
             
             cell.selectionStyle = .none
@@ -322,7 +359,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
                 let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
                 headerView.backgroundColor = UIColor.white
                 
-                let titleLabel = UILabel(frame: CGRect(x: 16, y: 0, width: headerView.frame.width - 16, height: headerView.frame.height))
+                let titleLabel = UILabel(frame: CGRect(x: 16, y: -10, width: headerView.frame.width - 16, height: headerView.frame.height))
                 titleLabel.textColor = UIColor.black
                 titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
                 titleLabel.text = "최근 검색어"
@@ -354,8 +391,10 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if tableView == self.tableView{
+            
             let app = searchResults[indexPath.row]
             performSegue(withIdentifier: "DetailSegue", sender: app)
+            
         }else{
             let searchText = searchHistory[indexPath.row]
             
@@ -382,10 +421,10 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             
             cancelBtn.isHidden = false
             
-            searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -70).isActive = true
+            searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -60).isActive = true
             searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
             
-            cancelBtn.leadingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: 0).isActive = true
+            cancelBtn.leadingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: -8).isActive = true
             
             searchBar.text = searchText
             searchBar.resignFirstResponder()
@@ -417,6 +456,7 @@ extension UITableView {
 extension UIViewController {
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
@@ -425,3 +465,6 @@ extension UIViewController {
         view.endEditing(true)
     }
 }
+
+
+

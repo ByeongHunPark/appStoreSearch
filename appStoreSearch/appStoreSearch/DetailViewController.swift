@@ -83,7 +83,7 @@ class DetailViewController: UIViewController {
         downloadBtn.titleLabel?.textColor = UIColor.white
         downloadBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
         downloadBtn.backgroundColor = UIColor.systemBlue
-        
+        downloadBtn.isUserInteractionEnabled = false
         downloadBtn.layer.cornerRadius = 10
         
         
