@@ -39,11 +39,6 @@ class ViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .white
         
-        self.hideKeyboardWhenTappedAround()
-        
-        tableView.inputViewController?.hideKeyboardWhenTappedAround()
-        historySerachTableView.inputViewController?.hideKeyboardWhenTappedAround()
-        
         if let savedSearchHistory = UserDefaults.standard.stringArray(forKey: "searchHistory"){
             searchHistory = savedSearchHistory
         }
@@ -64,11 +59,9 @@ class ViewController: UIViewController {
         tableView.keyboardDismissMode = .onDrag
         historySerachTableView.keyboardDismissMode = .onDrag
         
-        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        tableView.separatorStyle = .none
         
         searchBar.searchBarStyle = .minimal
-        
-        //        hideKeyBoardWhenTappedScreen()
         
         activityIndicator = UIActivityIndicatorView(style: .medium)
         activityIndicator.center = view.center
@@ -276,6 +269,9 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             if searchHistory.count == 0 {
                 // 검색 기록이 없는 경우 최근 검색어가 없음을 나타내는 라벨을 보여줌
                 historySerachTableView.setEmptyMessage("최근 검색어가 없습니다.")
+                
+                headerUse = false
+                
             } else {
                 historySerachTableView.restore() // 라벨을 숨김
             }
