@@ -218,7 +218,7 @@ extension ViewController: UISearchBarDelegate {
         topView.isHidden = false
         
         searchBar.text = ""
-        searchBar.resignFirstResponder()
+        
         
         mainViewCheck()
         headerUse = true
@@ -234,6 +234,8 @@ extension ViewController: UISearchBarDelegate {
         filteredSearchHistory = searchHistory
         
         historySerachTableView.reloadData()
+        
+        searchBar.resignFirstResponder()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -420,3 +422,4 @@ extension UITableView {
         self.separatorStyle = .singleLine
     }
 }
+
