@@ -18,6 +18,8 @@ class SearchResultCell: UITableViewCell {
     
     var app: App?
     
+    var CosmosSetting = CosmosSettings()
+    
     func configure(with app: App) {
         self.app = app
         
@@ -55,15 +57,21 @@ class SearchResultCell: UITableViewCell {
     }
     
     private func setupRationView(){
-        ratingView.settings.disablePanGestures = true
-        ratingView.settings.filledColor = UIColor.systemGray2
-        ratingView.settings.emptyBorderColor = UIColor.systemGray2
-        ratingView.settings.filledBorderColor = UIColor.systemGray2
-        ratingView.settings.fillMode = .precise
-        ratingView.settings.starSize = 13
-        ratingView.settings.starMargin = 1
         
-        ratingView.settings.textFont = UIFont.systemFont(ofSize: 13)
+        
+        
+//        CosmosSetting.disablePanGestures = true
+        CosmosSetting.updateOnTouch = false
+        CosmosSetting.filledColor = UIColor.systemGray2
+        CosmosSetting.emptyBorderColor = UIColor.systemGray2
+        CosmosSetting.filledBorderColor = UIColor.systemGray2
+        CosmosSetting.fillMode = .precise
+        CosmosSetting.starSize = 13
+        CosmosSetting.starMargin = 1
+        
+        CosmosSetting.textFont = UIFont.systemFont(ofSize: 13)
+        
+        ratingView.settings = CosmosSetting
         
     }
     
