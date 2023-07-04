@@ -55,9 +55,14 @@ class ViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
+        tableView.keyboardDismissMode = .onDrag
+        historySerachTableView.keyboardDismissMode = .onDrag
+        
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
         searchBar.searchBarStyle = .minimal
+        
+        //        hideKeyBoardWhenTappedScreen()
         
         activityIndicator = UIActivityIndicatorView(style: .medium)
         activityIndicator.center = view.center
@@ -97,8 +102,6 @@ class ViewController: UIViewController {
                 return
             }
             
-            let subtitle = json["subtitle"] as? String
-            
             var apps = [App]()
             
             for result in results {
@@ -116,8 +119,6 @@ class ViewController: UIViewController {
                    let screenshotUrl = URL(string: screenshotUrlString),
                    let screenshotData = try? Data(contentsOf: screenshotUrl),
                    let screenshotImage = UIImage(data: screenshotData) {
-                    
-                    let subtitle = result["subtitle"] as? String
                     
                     let app = App(name: name, rating: rating, userRatingCount: userRatingCount,  iconImage: iconImage, screenshotImage: screenshotImage, screenshotImageUrls: screenshotUrls, releaseNotes: releaseNotes, description: description)
                     apps.append(app)
@@ -137,31 +138,45 @@ class ViewController: UIViewController {
             mainView.isHidden = false
         }
     }
-//
-//    @IBAction func cancelBtnClicked(_ sender: Any) {
-//
-//        topView.isHidden = false
-//
-//        searchBar.text = ""
-//        searchBar.resignFirstResponder()
-//
-//        mainViewCheck()
-//        headerUse = true
-//
-//        cancelBtn.isHidden = true
-//
-////        searchBar.setShowsCancelButton(false, animated: true)
-//
-//        searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
-//
-//        view.constraints.filter { $0.firstItem === searchBar && $0.firstAttribute == .top }.forEach { $0.isActive = false }
-//
-//        searchBar.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 0).isActive = true
-//
-//        filteredSearchHistory = searchHistory
-//
-//        historySerachTableView.reloadData()
-//    }
+    
+    //    func hideKeyBoardWhenTappedScreen() {
+    //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapHandler))
+    //        tapGesture.cancelsTouchesInView = false
+    //        view.addGestureRecognizer(tapGesture)
+    //    }
+    //
+    //    @objc func tapHandler() {
+    //        searchBar.endEditing(true)
+    //    }
+    
+    @IBAction func cancelBtnClicked(_ sender: Any) {
+        
+        topView.isHidden = false
+        
+        searchBar.text = ""
+        
+        
+        mainViewCheck()
+        headerUse = true
+        
+        cancelBtn.isHidden = true
+        
+        view.constraints.filter { $0.firstItem === searchBar && $0.firstAttribute == .trailing }.forEach { $0.isActive = false }
+        
+        searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
+        
+        view.constraints.filter { $0.firstItem === searchBar && $0.firstAttribute == .top }.forEach { $0.isActive = false }
+        
+        searchBar.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 0).isActive = true
+        
+        filteredSearchHistory = searchHistory
+        
+        historySerachTableView.reloadData()
+        
+        searchBar.resignFirstResponder()
+        
+        
+    }
 }
 
 extension ViewController: UISearchBarDelegate {
@@ -186,8 +201,6 @@ extension ViewController: UISearchBarDelegate {
         
         cancelBtn.isHidden = false
         
-//        searchBar.setShowsCancelButton(true, animated: true)
-        
         searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -70).isActive = true
         
         searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
@@ -201,7 +214,6 @@ extension ViewController: UISearchBarDelegate {
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        
         topView.isHidden = false
         
         searchBar.text = ""
@@ -211,8 +223,6 @@ extension ViewController: UISearchBarDelegate {
         headerUse = true
         
         cancelBtn.isHidden = true
-        
-//        searchBar.setShowsCancelButton(false, animated: true)
         
         searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
         
@@ -302,14 +312,6 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.iconImageView.isHidden = true
                 cell.searchLabel.isHidden = true
             }
-            
-            searchHistory.append(filteredSearchHistory[indexPath.row]
-)
-            
-            let removedDuplicate: Set = Set(searchHistory)
-            
-            UserDefaults.standard.set(Array(removedDuplicate), forKey: "searchHistory")
-            UserDefaults.standard.synchronize()
             
             searchBar.resignFirstResponder()
             

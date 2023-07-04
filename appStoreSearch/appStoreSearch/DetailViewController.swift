@@ -18,8 +18,11 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var screenshotCollectionView: UICollectionView!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var noteMoreBtn: UIButton!
-    @IBOutlet weak var descriptionMoreBtn: UIView!
     @IBOutlet weak var descriptionView: UIView!
+    @IBOutlet weak var downloadBtn: UIButton!
+    @IBOutlet weak var descriptionMoreBtn: UIButton!
+    @IBOutlet weak var releaseLabel: UILabel!
+    @IBOutlet weak var appNoteLabel: UILabel!
     
     var app: App!
     
@@ -40,14 +43,29 @@ class DetailViewController: UIViewController {
         
         screenshotCollectionView.isPagingEnabled = false
         
+        appIconImageView.layer.cornerRadius = appIconImageView.frame.width/5
+        appIconImageView.layer.borderWidth = 0.1
+        appIconImageView.layer.borderColor = UIColor.systemGray3.cgColor
+        
         appIconImageView.image = app.iconImage
+        
         titleLabel.text = app.name
+        
+        setupRationView()
+        
         ratingView.rating = app.rating
+        ratingView.text = formatNumber(app.userRatingCount)
+        
+        releaseLabel.text = "새로운 기능"
+        appNoteLabel.text = "앱 설명"
+        
+        releaseLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        appNoteLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         
         noteLabel.text = truncatedText(app.releaseNotes, maxLines: 3)
         
         noteLabel.isUserInteractionEnabled = false
-        noteView.heightAnchor.constraint(equalTo: noteLabel.heightAnchor).isActive = true
+        noteView.heightAnchor.constraint(equalTo: noteLabel.heightAnchor, constant: 72).isActive = true
         
         screenshotCollectionView.dataSource = self
         screenshotCollectionView.delegate = self
@@ -55,9 +73,18 @@ class DetailViewController: UIViewController {
         
         descriptionLabel.text = truncatedText(app.description, maxLines: 3)
         descriptionLabel.isUserInteractionEnabled = false
-        descriptionView.heightAnchor.constraint(equalTo: descriptionLabel.heightAnchor).isActive = true
+        descriptionView.heightAnchor.constraint(equalTo: descriptionLabel.heightAnchor, constant: 72).isActive = true
         
-        setupRationView()
+        noteMoreBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
+        descriptionMoreBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
+        
+        downloadBtn.titleLabel?.textColor = UIColor.white
+        downloadBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
+        downloadBtn.backgroundColor = UIColor.systemBlue
+        
+        downloadBtn.layer.cornerRadius = 10
+        
+        
     }
     
     func truncatedText(_ text: String, maxLines: Int) -> String {
@@ -72,9 +99,10 @@ class DetailViewController: UIViewController {
         ratingView.settings.emptyBorderColor = UIColor.systemGray2
         ratingView.settings.filledBorderColor = UIColor.systemGray2
         ratingView.settings.fillMode = .precise
-        ratingView.settings.starSize = 15
-        ratingView.settings.starSize = 3
+        ratingView.settings.starSize = 13
+        ratingView.settings.starMargin = 1
         
+        ratingView.settings.textFont = UIFont.systemFont(ofSize: 13)
     }
     
     @IBAction func noteMoreBtnClicked(_ sender: Any) {

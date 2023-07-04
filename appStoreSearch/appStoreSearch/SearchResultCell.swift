@@ -26,7 +26,9 @@ class SearchResultCell: UITableViewCell {
         screenshotCollectionView.dataSource = self
         screenshotCollectionView.delegate = self
         
-        appIconImageView.layer.cornerRadius = appIconImageView.frame.width/8
+        appIconImageView.layer.cornerRadius = appIconImageView.frame.width/5
+        appIconImageView.layer.borderWidth = 0.1
+        appIconImageView.layer.borderColor = UIColor.systemGray3.cgColor
         
         appIconImageView.image = app.iconImage
         titleLabel.text = app.name
@@ -100,7 +102,7 @@ extension SearchResultCell: UICollectionViewDataSource, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // 컬렉션뷰 셀의 크기 설정
         
-        let cellWidth = collectionView.bounds.width / 3.5
+        let cellWidth = collectionView.bounds.width / 3.2
         let cellHeight = collectionView.bounds.height
         return CGSize(width: cellWidth, height: cellHeight)
     }
