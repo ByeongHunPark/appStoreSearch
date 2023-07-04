@@ -29,12 +29,17 @@ class DetailViewController: UIViewController {
         setupUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.isNavigationBarHidden = false
+    }
+    
     private func setupUI() {
         view.backgroundColor = .white
         
-        navigationController?.navigationBar.isHidden = false
+        screenshotCollectionView.isPagingEnabled = false
         
-        // 앱 정보 표시
         appIconImageView.image = app.iconImage
         titleLabel.text = app.name
         ratingView.rating = app.rating
@@ -104,6 +109,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
                     print("로드 성공")
                     
                     cell.configure(with: image)
+//                    cell.setCornerRadius(8)
                 } else {
                     print("로드 실패")
                 }
@@ -115,10 +121,15 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let cellWidth = collectionView.bounds.width / 1.5
+        let cellWidth = collectionView.bounds.width / 1.7
         let cellHeight = collectionView.bounds.height
         return CGSize(width: cellWidth, height: cellHeight)
     }
+        
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
     
     private func fetchScreenshotImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
         URLSession.shared.dataTask(with: url) { data, _, error in

@@ -9,9 +9,12 @@ import Foundation
 import UIKit
 
 class SearchHistoryCell: UITableViewCell {
+    
+    @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var searchLabel: UILabel!
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         setupCell()
     }
     
@@ -23,7 +26,11 @@ class SearchHistoryCell: UITableViewCell {
     
     private func setupCell() {
         self.selectionStyle = .none
-        self.textLabel?.font = UIFont.systemFont(ofSize: 16)
-        self.textLabel?.textColor = UIColor.blue
+        self.textLabel?.font = UIFont.systemFont(ofSize: 20)
+        self.textLabel?.textColor = UIColor.systemBlue
+    }
+    
+    func setIconImage(_ image: UIImage?) {
+        iconImageView.image = image
     }
 }

@@ -12,8 +12,13 @@ class ScreenshotCell: UICollectionViewCell {
     @IBOutlet weak var screenshotImageView: UIImageView!
     
     func configure(with screenshot: UIImage) {
-        
         screenshotImageView.image = screenshot
+        setCornerRadius(15)
+    }
+    
+    func setCornerRadius(_ radius: CGFloat) {
+        screenshotImageView.layer.cornerRadius = radius
+        screenshotImageView.layer.masksToBounds = true
     }
 }
 

@@ -14,7 +14,7 @@ class SearchResultCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var ratingView: CosmosView!
     @IBOutlet weak var screenshotCollectionView: UICollectionView!
-    @IBOutlet weak var userRatingCount: UILabel!
+    @IBOutlet weak var downloadBtn: UIButton!
     
     var app: App?
     
@@ -31,8 +31,10 @@ class SearchResultCell: UITableViewCell {
         appIconImageView.image = app.iconImage
         titleLabel.text = app.name
         ratingView.rating = app.rating
-        userRatingCount.text = formatNumber(app.userRatingCount)
+        ratingView.text = formatNumber(app.userRatingCount)
         screenshotCollectionView.reloadData()
+        
+        setupUI()
         
     }
     
@@ -42,14 +44,25 @@ class SearchResultCell: UITableViewCell {
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 12, right: 0))
     }
     
+    private func setupUI(){
+        downloadBtn.titleLabel?.textColor = UIColor.systemBlue
+        downloadBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
+        downloadBtn.backgroundColor = UIColor.systemGray6
+        
+        downloadBtn.layer.cornerRadius = 10
+    }
+    
     private func setupRationView(){
         ratingView.settings.disablePanGestures = true
         ratingView.settings.filledColor = UIColor.systemGray2
         ratingView.settings.emptyBorderColor = UIColor.systemGray2
         ratingView.settings.filledBorderColor = UIColor.systemGray2
         ratingView.settings.fillMode = .precise
-        ratingView.settings.starSize = 15
-        ratingView.settings.starMargin = 5
+        ratingView.settings.starSize = 13
+        ratingView.settings.starMargin = 1
+        
+        ratingView.settings.textFont = UIFont.systemFont(ofSize: 13)
+        
     }
     
 }
@@ -60,7 +73,6 @@ extension SearchResultCell: UICollectionViewDataSource, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print("count \(app!.screenshotImageUrls.count)")
         return 3
-//        app!.screenshotImageUrls.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -68,35 +80,33 @@ extension SearchResultCell: UICollectionViewDataSource, UICollectionViewDelegate
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ScreenshotCell", for: indexPath) as? ScreenshotCell else {
             return UICollectionViewCell()
         }
-        print("로드 중~~~~")
         
+        let screenshotUrlString = app!.screenshotImageUrls[indexPath.item]
+        let screenshotUrl = URL(string: screenshotUrlString)
         
-//        if indexPath.item < 3 {
-            let screenshotUrlString = app!.screenshotImageUrls[indexPath.item]
-            let screenshotUrl = URL(string: screenshotUrlString)
-            
-            fetchScreenshotImage(from: screenshotUrl!) { image in
-                DispatchQueue.main.async {
-                    if let image = image {
-                        print("로드 성공!!!")
-                        
-                        cell.configure(with: image)
-                        
-                    } else {
-                        print("로드 실패!!!")
-                    }
+        fetchScreenshotImage(from: screenshotUrl!) { image in
+            DispatchQueue.main.async {
+                if let image = image {
+                    cell.configure(with: image)
+                } else {
+                    print("로드 실패!!!")
                 }
             }
-//        }
+        }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // 컬렉션뷰 셀의 크기 설정
-        let cellWidth = collectionView.bounds.width / 3
+        
+        let cellWidth = collectionView.bounds.width / 3.5
         let cellHeight = collectionView.bounds.height
         return CGSize(width: cellWidth, height: cellHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
     }
     
     private func fetchScreenshotImage(from url: URL, completion: @escaping (UIImage?) -> Void) {

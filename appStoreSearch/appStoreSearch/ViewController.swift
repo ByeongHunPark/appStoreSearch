@@ -8,10 +8,12 @@
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var topView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var historySerachTableView: UITableView!
+    @IBOutlet weak var cancelBtn: UIButton!
     
     var searchResults: [App] = []
     
@@ -19,10 +21,18 @@ class ViewController: UIViewController {
     var filteredSearchHistory: [String] = []
     var activityIndicator: UIActivityIndicatorView!
     
+    var headerUse : Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.isNavigationBarHidden = true
     }
     
     private func setupUI() {
@@ -35,6 +45,7 @@ class ViewController: UIViewController {
         filteredSearchHistory = searchHistory
         
         searchBar.delegate = self
+        searchBar.placeholder = "게임, 앱, 스토리 등"
         
         historySerachTableView.delegate = self
         historySerachTableView.dataSource = self
@@ -54,7 +65,7 @@ class ViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("bbbb")
+        
         if segue.identifier == "DetailSegue", let app = sender as? App {
             let detailViewController = segue.destination as! DetailViewController
             detailViewController.app = app
@@ -86,12 +97,11 @@ class ViewController: UIViewController {
                 return
             }
             
+            let subtitle = json["subtitle"] as? String
+            
             var apps = [App]()
             
             for result in results {
-                
-                
-                
                 if let name = result["trackName"] as? String,
                    let rating = result["averageUserRating"] as? Double,
                    let userRatingCount = result["userRatingCount"] as? Int,
@@ -107,10 +117,7 @@ class ViewController: UIViewController {
                    let screenshotData = try? Data(contentsOf: screenshotUrl),
                    let screenshotImage = UIImage(data: screenshotData) {
                     
-                    
-                    if name == "카카오뱅크"{
-                        print("result \(result)")
-                    }
+                    let subtitle = result["subtitle"] as? String
                     
                     let app = App(name: name, rating: rating, userRatingCount: userRatingCount,  iconImage: iconImage, screenshotImage: screenshotImage, screenshotImageUrls: screenshotUrls, releaseNotes: releaseNotes, description: description)
                     apps.append(app)
@@ -124,17 +131,43 @@ class ViewController: UIViewController {
         
     }
     
-    private func historySerachTableViewCheck(){
-        if historySerachTableView.isHidden{
+    private func mainViewCheck(){
+        if mainView.isHidden{
             tableView.isHidden = true
-            historySerachTableView.isHidden = false
+            mainView.isHidden = false
         }
     }
+//
+//    @IBAction func cancelBtnClicked(_ sender: Any) {
+//
+//        topView.isHidden = false
+//
+//        searchBar.text = ""
+//        searchBar.resignFirstResponder()
+//
+//        mainViewCheck()
+//        headerUse = true
+//
+//        cancelBtn.isHidden = true
+//
+////        searchBar.setShowsCancelButton(false, animated: true)
+//
+//        searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
+//
+//        view.constraints.filter { $0.firstItem === searchBar && $0.firstAttribute == .top }.forEach { $0.isActive = false }
+//
+//        searchBar.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 0).isActive = true
+//
+//        filteredSearchHistory = searchHistory
+//
+//        historySerachTableView.reloadData()
+//    }
 }
 
 extension ViewController: UISearchBarDelegate {
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.isEmpty {
+        if searchText.isEmpty || searchBar.text == "" {
             // 검색어 입력이 없을 경우 최근 검색어 목록 표시
             filteredSearchHistory = searchHistory
             
@@ -143,39 +176,74 @@ extension ViewController: UISearchBarDelegate {
             filteredSearchHistory = searchHistory.filter { $0.lowercased().contains(searchText.lowercased()) }
         }
         
-        historySerachTableViewCheck()
+        mainViewCheck()
+        
+        historySerachTableView.reloadData()
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        topView.isHidden = true
+        
+        cancelBtn.isHidden = false
+        
+//        searchBar.setShowsCancelButton(true, animated: true)
+        
+        searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -70).isActive = true
+        
+        searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        
+        cancelBtn.leadingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: 0).isActive = true
+        
+        headerUse = false
+        historySerachTableView.tableHeaderView = nil
         
         historySerachTableView.reloadData()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        
+        topView.isHidden = false
+        
         searchBar.text = ""
         searchBar.resignFirstResponder()
         
-        historySerachTableViewCheck()
+        mainViewCheck()
+        headerUse = true
+        
+        cancelBtn.isHidden = true
+        
+//        searchBar.setShowsCancelButton(false, animated: true)
+        
+        searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0).isActive = true
+        
+        view.constraints.filter { $0.firstItem === searchBar && $0.firstAttribute == .top }.forEach { $0.isActive = false }
+        
+        searchBar.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 0).isActive = true
+        
+        filteredSearchHistory = searchHistory
         
         historySerachTableView.reloadData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
-        print("click")
+        
+        view.isUserInteractionEnabled = false
+        
         activityIndicator.startAnimating()
         
         // 앱스토어 API 호출
         searchAppStore(with: searchText) { [weak self] results in
             DispatchQueue.main.async {
-                print("main")
                 self?.searchResults = results
+                self?.topView.isHidden = true
                 self?.mainView.isHidden = true
                 self?.tableView.isHidden = false
+                self?.view.isUserInteractionEnabled = true
                 self?.tableView.reloadData()
                 self?.activityIndicator.stopAnimating()
             }
         }
-        
-        print("add")
-        
         searchHistory.append(searchText)
         
         let removedDuplicate: Set = Set(searchHistory)
@@ -185,6 +253,7 @@ extension ViewController: UISearchBarDelegate {
         
         searchBar.resignFirstResponder()
     }
+    
 }
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
@@ -220,8 +289,30 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             
             return cell
         }else{
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SearchHistoryCell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SearchHistoryCell", for: indexPath) as! SearchHistoryCell
             cell.textLabel?.text = filteredSearchHistory[indexPath.row]
+            cell.searchLabel.text = filteredSearchHistory[indexPath.row]
+            
+            if searchBar.text != ""{
+                cell.textLabel?.isHidden = true
+                cell.iconImageView.isHidden = false
+                cell.searchLabel.isHidden = false
+            }else{
+                cell.textLabel?.isHidden = false
+                cell.iconImageView.isHidden = true
+                cell.searchLabel.isHidden = true
+            }
+            
+            searchHistory.append(filteredSearchHistory[indexPath.row]
+)
+            
+            let removedDuplicate: Set = Set(searchHistory)
+            
+            UserDefaults.standard.set(Array(removedDuplicate), forKey: "searchHistory")
+            UserDefaults.standard.synchronize()
+            
+            searchBar.resignFirstResponder()
+            
             return cell
         }
         
@@ -231,16 +322,20 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         if tableView == historySerachTableView{
-            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 40))
-            headerView.backgroundColor = UIColor.lightGray
-            
-            let titleLabel = UILabel(frame: CGRect(x: 16, y: 0, width: headerView.frame.width - 16, height: headerView.frame.height))
-            titleLabel.textColor = UIColor.black
-            titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
-            titleLabel.text = "최근 검색어"
-            headerView.addSubview(titleLabel)
-            
-            return headerView
+            if headerUse{
+                let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
+                headerView.backgroundColor = UIColor.white
+                
+                let titleLabel = UILabel(frame: CGRect(x: 16, y: 0, width: headerView.frame.width - 16, height: headerView.frame.height))
+                titleLabel.textColor = UIColor.black
+                titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
+                titleLabel.text = "최근 검색어"
+                headerView.addSubview(titleLabel)
+                
+                return headerView
+            }else{
+                return nil
+            }
         }else{
             return nil
         }
@@ -248,7 +343,11 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if tableView == historySerachTableView{
-            return 40
+            if headerUse{
+                return 40
+            }else{
+                return 0
+            }
         }else{
             return 0
         }
@@ -259,16 +358,42 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if tableView == self.tableView{
-            print("aaa")
             let app = searchResults[indexPath.row]
             performSegue(withIdentifier: "DetailSegue", sender: app)
         }else{
-            print("bbb")
-            let app = searchResults[indexPath.row]
-            performSegue(withIdentifier: "DetailSegue", sender: app)
+            let searchText = searchHistory[indexPath.row]
+            
+            view.isUserInteractionEnabled = false
+            
+            activityIndicator.startAnimating()
+            
+            // 앱스토어 API 호출
+            searchAppStore(with: searchText) { [weak self] results in
+                DispatchQueue.main.async {
+                    
+                    self?.searchResults = results
+                    self?.mainView.isHidden = true
+                    self?.tableView.isHidden = false
+                    self?.view.isUserInteractionEnabled = true
+                    self?.tableView.reloadData()
+                    self?.activityIndicator.stopAnimating()
+                }
+            }
+            
+            topView.isHidden = true
+            mainView.isHidden = true
+            tableView.isHidden = false
+            
+            cancelBtn.isHidden = false
+            
+            searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -70).isActive = true
+            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+            
+            cancelBtn.leadingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: 0).isActive = true
+            
+            searchBar.text = searchText
+            searchBar.resignFirstResponder()
         }
-        
-        
     }
     
 }
