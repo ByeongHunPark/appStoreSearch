@@ -81,7 +81,6 @@ extension SearchResultCell: UICollectionViewDataSource, UICollectionViewDelegate
 {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("count \(app!.screenshotImageUrls.count)")
         return 3
     }
     

@@ -39,6 +39,11 @@ class ViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .white
         
+        self.hideKeyboardWhenTappedAround()
+        
+        tableView.inputViewController?.hideKeyboardWhenTappedAround()
+        historySerachTableView.inputViewController?.hideKeyboardWhenTappedAround()
+        
         if let savedSearchHistory = UserDefaults.standard.stringArray(forKey: "searchHistory"){
             searchHistory = savedSearchHistory
         }
@@ -139,16 +144,6 @@ class ViewController: UIViewController {
             mainView.isHidden = false
         }
     }
-    
-    //    func hideKeyBoardWhenTappedScreen() {
-    //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapHandler))
-    //        tapGesture.cancelsTouchesInView = false
-    //        view.addGestureRecognizer(tapGesture)
-    //    }
-    //
-    //    @objc func tapHandler() {
-    //        searchBar.endEditing(true)
-    //    }
     
     @IBAction func cancelBtnClicked(_ sender: Any) {
         
@@ -423,3 +418,14 @@ extension UITableView {
     }
 }
 
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
