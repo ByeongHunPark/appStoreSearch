@@ -151,7 +151,7 @@ final class appStoreSearchTests: XCTestCase {
         let textDescription = detailViewController.truncatedText(detailViewController.app.description, maxLines: 3)
         
         XCTAssertNotNil(detailViewController.appIconImageView.image, "detailViewController.appIconImageView.image가 존재하지 않음")
-        XCTAssertEqual(detailViewController.titleLabel.text, name, "detailViewController.titleLabel.text가 정보와 다름")
+        XCTAssertEqual(detailViewController.titleLabel.text, detailViewController.app.name, "detailViewController.titleLabel.text가 정보와 다름")
         XCTAssertEqual(detailViewController.ratingView.rating, detailViewController.app.rating, "detailViewController.ratingView.rating이 정보와 다름")
         XCTAssertEqual(detailViewController.noteLabel.text, textNote, "detailViewController.noteLabel.text가 정보와 다름")
         XCTAssertEqual(detailViewController.descriptionLabel.text, textDescription, "detailViewController.descriptionLabel.text가 정보와 다름")
