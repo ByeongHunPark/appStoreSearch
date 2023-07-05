@@ -138,8 +138,6 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
         fetchScreenshotImage(from: screenshotUrl!) { image in
             DispatchQueue.main.async {
                 if let image = image {
-                    print("로드 성공")
-                    
                     cell.configure(with: image)
                 } else {
                     print("로드 실패")

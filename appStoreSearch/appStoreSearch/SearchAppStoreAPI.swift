@@ -118,9 +118,11 @@ class SearchAppStoreAPI: ObservableObject{
                         
                     }catch {
                         print("Error: \(error)")
+                        completion([])
                     }
                 case .failure(let error):
                     print("Error")
+                    completion([])
                 }
             }
     }
