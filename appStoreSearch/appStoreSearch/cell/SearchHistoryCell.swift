@@ -30,7 +30,4 @@ class SearchHistoryCell: UITableViewCell {
         self.textLabel?.textColor = UIColor.systemBlue
     }
     
-    func setIconImage(_ image: UIImage?) {
-        iconImageView.image = image
-    }
 }
