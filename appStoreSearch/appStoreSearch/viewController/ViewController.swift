@@ -20,8 +20,6 @@ class ViewController: UIViewController {
     
     var searchResults: [App] = []
     
-    var selectedIndexPath = [IndexPath]()
-    
     var searchHistory: [String] = []
     var filteredSearchHistory: [String] = []
     var activityIndicator: UIActivityIndicatorView!
@@ -375,36 +373,17 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
 }
 
-extension UITableView {
-    func setEmptyMessage(_ message: String) {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
-        label.text = message
-        label.textColor = .gray
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 18)
-        label.sizeToFit()
-        
-        self.backgroundView = label
-        self.separatorStyle = .none
-    }
-    
-    func restore() {
-        self.backgroundView = nil
-        self.separatorStyle = .singleLine
-    }
-}
 
-extension UIViewController {
-    func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // collectionView의 셀을 선택한 경우에 수행할 동작을 구현합니다.
+        // 예를 들어, collectionView의 셀을 선택했을 때의 동작을 처리하고 싶다면 이곳에 해당 동작을 추가합니다.
         
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
+        // ...
+
+        // tableView의 didSelectRowAt 동작이 실행되지 않도록 하기 위해
+        // collectionView의 셀 선택 후에는 return을 사용하여 함수를 종료합니다.
+        return
     }
 }
 
