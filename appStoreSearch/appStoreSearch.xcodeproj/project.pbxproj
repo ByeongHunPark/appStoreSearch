@@ -12,6 +12,9 @@
 		14DE51C92A52B8030091D1FE /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE51C82A52B8030091D1FE /* Format.swift */; };
 		14DE51CB2A52BB210091D1FE /* SearchHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE51CA2A52BB210091D1FE /* SearchHistoryCell.swift */; };
 		14DE51CE2A53FF600091D1FE /* Cosmos in Frameworks */ = {isa = PBXBuildFile; productRef = 14DE51CD2A53FF600091D1FE /* Cosmos */; };
+		14DE51EC2A54EC890091D1FE /* SearchAppStoreAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE51EB2A54EC890091D1FE /* SearchAppStoreAPI.swift */; };
+		14DE51EF2A54EE3A0091D1FE /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 14DE51EE2A54EE3A0091D1FE /* Alamofire */; };
+		14DE51F22A54EE4E0091D1FE /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 14DE51F12A54EE4E0091D1FE /* SwiftyJSON */; };
 		6C029C032A505BED00DC2FB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C029C022A505BED00DC2FB5 /* AppDelegate.swift */; };
 		6C029C052A505BED00DC2FB5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C029C042A505BED00DC2FB5 /* SceneDelegate.swift */; };
 		6C029C072A505BED00DC2FB5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C029C062A505BED00DC2FB5 /* ViewController.swift */; };
@@ -29,6 +32,7 @@
 		14DE51C02A5259850091D1FE /* ScreenshotCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotCell.swift; sourceTree = "<group>"; };
 		14DE51C82A52B8030091D1FE /* Format.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
 		14DE51CA2A52BB210091D1FE /* SearchHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryCell.swift; sourceTree = "<group>"; };
+		14DE51EB2A54EC890091D1FE /* SearchAppStoreAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAppStoreAPI.swift; sourceTree = "<group>"; };
 		6C029BFF2A505BED00DC2FB5 /* appStoreSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = appStoreSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C029C022A505BED00DC2FB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6C029C042A505BED00DC2FB5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,7 +53,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14DE51F22A54EE4E0091D1FE /* SwiftyJSON in Frameworks */,
 				14DE51CE2A53FF600091D1FE /* Cosmos in Frameworks */,
+				14DE51EF2A54EE3A0091D1FE /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +85,7 @@
 				6C029C022A505BED00DC2FB5 /* AppDelegate.swift */,
 				6C029C042A505BED00DC2FB5 /* SceneDelegate.swift */,
 				6C029C062A505BED00DC2FB5 /* ViewController.swift */,
+				14DE51EB2A54EC890091D1FE /* SearchAppStoreAPI.swift */,
 				14DE51BC2A5247200091D1FE /* SearchViewController.swift */,
 				6C029C182A505DFE00DC2FB5 /* DetailViewController.swift */,
 				6C029C1A2A505E1C00DC2FB5 /* appModel.swift */,
@@ -121,6 +128,8 @@
 			name = appStoreSearch;
 			packageProductDependencies = (
 				14DE51CD2A53FF600091D1FE /* Cosmos */,
+				14DE51EE2A54EE3A0091D1FE /* Alamofire */,
+				14DE51F12A54EE4E0091D1FE /* SwiftyJSON */,
 			);
 			productName = appStoreSearch;
 			productReference = 6C029BFF2A505BED00DC2FB5 /* appStoreSearch.app */;
@@ -152,6 +161,8 @@
 			mainGroup = 6C029BF62A505BED00DC2FB5;
 			packageReferences = (
 				14DE51CC2A53FF600091D1FE /* XCRemoteSwiftPackageReference "Cosmos" */,
+				14DE51ED2A54EE3A0091D1FE /* XCRemoteSwiftPackageReference "Alamofire" */,
+				14DE51F02A54EE4E0091D1FE /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			productRefGroup = 6C029C002A505BED00DC2FB5 /* Products */;
 			projectDirPath = "";
@@ -184,6 +195,7 @@
 				14DE51CB2A52BB210091D1FE /* SearchHistoryCell.swift in Sources */,
 				6C029C1F2A505FF200DC2FB5 /* AppSearchTest.swift in Sources */,
 				14DE51C92A52B8030091D1FE /* Format.swift in Sources */,
+				14DE51EC2A54EC890091D1FE /* SearchAppStoreAPI.swift in Sources */,
 				14DE51BD2A5247200091D1FE /* SearchViewController.swift in Sources */,
 				14DE51C12A5259850091D1FE /* ScreenshotCell.swift in Sources */,
 				6C029C032A505BED00DC2FB5 /* AppDelegate.swift in Sources */,
@@ -430,6 +442,22 @@
 				kind = branch;
 			};
 		};
+		14DE51ED2A54EE3A0091D1FE /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		14DE51F02A54EE4E0091D1FE /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -437,6 +465,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 14DE51CC2A53FF600091D1FE /* XCRemoteSwiftPackageReference "Cosmos" */;
 			productName = Cosmos;
+		};
+		14DE51EE2A54EE3A0091D1FE /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14DE51ED2A54EE3A0091D1FE /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		14DE51F12A54EE4E0091D1FE /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14DE51F02A54EE4E0091D1FE /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

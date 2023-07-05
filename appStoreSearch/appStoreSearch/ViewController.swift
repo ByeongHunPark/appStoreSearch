@@ -16,6 +16,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var historySerachTableView: UITableView!
     @IBOutlet weak var cancelBtn: UIButton!
     
+    let searchAppStoreAPI = SearchAppStoreAPI.shared
+    
     var searchResults: [App] = []
     
     var selectedIndexPath = [IndexPath]()
@@ -88,60 +90,7 @@ class ViewController: UIViewController {
         }
     }
     
-    // MARK: - App Store API
-    // TODO: 상위 5개만 보이게 하기 + 아래 더보기로 나머지 불러오기
-    func searchAppStore(with term: String, completion: @escaping ([App]) -> Void) {
-        guard let encodedTerm = term.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-            completion([])
-            return
-        }
-        
-        let countryCode = "kr"
-        
-        let urlString = "https://itunes.apple.com/search?term=\(encodedTerm)&country=\(countryCode)&entity=software&limit=5"
-        
-        guard let url = URL(string: urlString) else {
-            completion([])
-            return
-        }
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            guard let data = data,
-                  let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                  let results = json["results"] as? [[String: Any]] else {
-                completion([])
-                return
-            }
-            
-            var apps = [App]()
-            
-            for result in results {
-                if let name = result["trackName"] as? String,
-                   let rating = result["averageUserRating"] as? Double,
-                   let userRatingCount = result["userRatingCount"] as? Int,
-                   let iconUrlString = result["artworkUrl100"] as? String,
-                   let screenshotUrls = result["screenshotUrls"] as? [String],
-                   let iconUrl = URL(string: iconUrlString),
-                   let iconData = try? Data(contentsOf: iconUrl),
-                   let iconImage = UIImage(data: iconData),
-                   let description = result["description"] as? String,
-                   let releaseNotes = result["releaseNotes"] as? String,
-                   let screenshotUrlString = screenshotUrls.first,
-                   let screenshotUrl = URL(string: screenshotUrlString),
-                   let screenshotData = try? Data(contentsOf: screenshotUrl),
-                   let screenshotImage = UIImage(data: screenshotData) {
-                    
-                    let app = App(name: name, rating: rating, userRatingCount: userRatingCount,  iconImage: iconImage, screenshotImage: screenshotImage, screenshotImageUrls: screenshotUrls, releaseNotes: releaseNotes, description: description)
-                    apps.append(app)
-                }
-            }
-            
-            completion(apps)
-        }
-        
-        task.resume()
-        
-    }
+    
     
     private func mainViewCheck(){
         if mainView.isHidden{
@@ -193,7 +142,6 @@ class ViewController: UIViewController {
 
 extension ViewController: UISearchBarDelegate {
     
-    // MARK: 필터링 될 때마다 키보드 내려감(시뮬레이터) 수정 필요
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty || searchBar.text == "" {
             filteredSearchHistory = searchHistory
@@ -255,7 +203,7 @@ extension ViewController: UISearchBarDelegate {
         
     }
     
-    // TODO: 테이블 뷰 맨위로 올라가는 기능 + x button 동작 변경
+    // TODO: 테이블 뷰 맨위로 올라가는 기능
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
@@ -265,7 +213,7 @@ extension ViewController: UISearchBarDelegate {
         activityIndicator.startAnimating()
         
         // 앱스토어 API 호출
-        searchAppStore(with: searchText) { [weak self] results in
+        searchAppStoreAPI.searchAppStore(with: searchText) { [weak self] results in
             DispatchQueue.main.async {
                 self?.searchResults = results
                 self?.topView.isHidden = true
@@ -285,9 +233,6 @@ extension ViewController: UISearchBarDelegate {
         
         filteredSearchHistory = searchHistory
         
-        historySerachTableView.reloadData()
-        
-        
         searchBar.resignFirstResponder()
     }
     
@@ -303,13 +248,12 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         }else{
             
             if searchHistory.count == 0 {
-                // 검색 기록이 없는 경우 최근 검색어가 없음을 나타내는 라벨을 보여줌
                 historySerachTableView.setEmptyMessage("최근 검색어가 없습니다.")
                 
                 headerUse = false
                 
             } else {
-                historySerachTableView.restore() // 라벨을 숨김
+                historySerachTableView.restore()
             }
             
             return filteredSearchHistory.count
@@ -343,8 +287,6 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.iconImageView.isHidden = true
                 cell.searchLabel.isHidden = true
             }
-            
-            searchBar.resignFirstResponder()
             
             return cell
         }
@@ -403,7 +345,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             activityIndicator.startAnimating()
             
             // 앱스토어 API 호출
-            searchAppStore(with: searchText) { [weak self] results in
+            searchAppStoreAPI.searchAppStore(with: searchText) { [weak self] results in
                 DispatchQueue.main.async {
                     
                     self?.searchResults = results

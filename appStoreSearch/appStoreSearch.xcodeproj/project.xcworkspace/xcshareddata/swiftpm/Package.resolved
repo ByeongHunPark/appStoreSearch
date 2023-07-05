@@ -1,12 +1,30 @@
 {
   "pins" : [
     {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire",
+      "state" : {
+        "branch" : "master",
+        "revision" : "51a2d5077567b257ac1f227b6883c4ff1d7a491d"
+      }
+    },
+    {
       "identity" : "cosmos",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/evgenyneu/Cosmos",
       "state" : {
         "branch" : "master",
         "revision" : "cce521e734d0090494bd4afab5fd2e2f2465c1af"
+      }
+    },
+    {
+      "identity" : "swiftyjson",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyJSON/SwiftyJSON",
+      "state" : {
+        "branch" : "master",
+        "revision" : "af1f7a2007d607fbe735c445f19080df4260fe8e"
       }
     }
   ],
