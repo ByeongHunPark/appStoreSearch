@@ -150,6 +150,9 @@ class ViewController: UIViewController {
         
         searchHistory.insert(searchText, at: 0)
         
+        UserDefaults.standard.set(Array(searchHistory), forKey: "searchHistory")
+        UserDefaults.standard.synchronize()
+        
         filteredSearchHistory = searchHistory
     }
     
