@@ -29,7 +29,6 @@ class SearchAppStoreAPI: ObservableObject{
         }.resume()
     }
     
-    // TODO: 상위 5개만 보이게 하기 + 아래 더보기로 나머지 불러오기
     func searchAppStore(with term: String, completion: @escaping ([App]) -> Void) {
         
         guard let encodedTerm = term.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
