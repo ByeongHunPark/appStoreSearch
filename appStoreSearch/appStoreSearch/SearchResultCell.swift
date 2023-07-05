@@ -79,7 +79,6 @@ extension SearchResultCell: UICollectionViewDataSource, UICollectionViewDelegate
 {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("app!.screenshotImageUrls.count \(app!.screenshotImageUrls.count)")
         if app!.screenshotImageUrls.count > 2{
             return 3
         }else{
