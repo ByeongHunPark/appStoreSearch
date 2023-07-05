@@ -104,6 +104,7 @@ class ViewController: UIViewController {
         
         searchBar.text = ""
         
+        tableViewToTop()
         
         mainViewCheck()
         headerUse = true
@@ -122,19 +123,25 @@ class ViewController: UIViewController {
         
         historySerachTableView.reloadData()
         
-        //        searchBar.resignFirstResponder()
     }
     
     @IBAction func clearBtnClicked(_ sender: Any) {
         
         searchBar.text = ""
         
+        tableViewToTop()
         
         mainViewCheck()
         
         headerUse = true
-        // TODO: 키보드 올라오게 하기
         
+        searchBar.becomeFirstResponder()
+        
+    }
+    
+    func tableViewToTop(){
+        let index = IndexPath(row: 0, section: 0)
+        self.tableView.scrollToRow(at: index, at: .top, animated: false)
     }
     
 }
@@ -171,7 +178,6 @@ extension ViewController: UISearchBarDelegate {
         historySerachTableView.tableHeaderView = nil
     }
     
-    // TODO: 테이블 뷰 맨위로 올라가는 기능
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
@@ -179,6 +185,8 @@ extension ViewController: UISearchBarDelegate {
         view.isUserInteractionEnabled = false
         
         activityIndicator.startAnimating()
+        
+        tableViewToTop()
         
         // 앱스토어 API 호출
         searchAppStoreAPI.searchAppStore(with: searchText) { [weak self] results in
@@ -189,6 +197,8 @@ extension ViewController: UISearchBarDelegate {
                 self?.tableView.isHidden = false
                 self?.view.isUserInteractionEnabled = true
                 self?.tableView.reloadData()
+                
+                
                 self?.activityIndicator.stopAnimating()
             }
         }

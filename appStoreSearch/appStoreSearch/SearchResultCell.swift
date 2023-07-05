@@ -83,7 +83,12 @@ extension SearchResultCell: UICollectionViewDataSource, UICollectionViewDelegate
 {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        print("app!.screenshotImageUrls.count \(app!.screenshotImageUrls.count)")
+        if app!.screenshotImageUrls.count > 2{
+            return 3
+        }else{
+            return app!.screenshotImageUrls.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -94,7 +99,7 @@ extension SearchResultCell: UICollectionViewDataSource, UICollectionViewDelegate
         
         let screenshotUrlString = app!.screenshotImageUrls[indexPath.item]
         let screenshotUrl = URL(string: screenshotUrlString)
-        
+
         fetchScreenshotImage(from: screenshotUrl!) { image in
             DispatchQueue.main.async {
                 if let image = image {

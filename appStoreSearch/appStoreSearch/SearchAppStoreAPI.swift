@@ -91,10 +91,11 @@ class SearchAppStoreAPI: ObservableObject{
                                                               releaseNotes: releaseNotes,
                                                               description: description)
                                                 
-                                                objc_sync_enter(apps)
-                                                apps.append(app)
-                                                objc_sync_exit(apps)
-                                                
+                                                DispatchQueue.main.async(flags: .barrier) {
+                                                    objc_sync_enter(apps)
+                                                    apps.append(app)
+                                                    objc_sync_exit(apps)
+                                                }
                                             }
                                             group.leave()
                                         }
