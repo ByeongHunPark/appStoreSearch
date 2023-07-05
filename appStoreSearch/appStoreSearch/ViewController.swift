@@ -91,7 +91,6 @@ class ViewController: UIViewController {
     }
     
     
-    
     private func mainViewCheck(){
         if mainView.isHidden{
             tableView.isHidden = true
