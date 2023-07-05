@@ -139,9 +139,27 @@ class ViewController: UIViewController {
         
     }
     
+    func searchHistorySet(_ searchText: String){
+        searchHistory.append(searchText)
+        
+        searchHistory = Array(Set(searchHistory))
+        
+        if let index = searchHistory.firstIndex(of: searchText) {
+            searchHistory.remove(at: index)
+        }
+        
+        searchHistory.insert(searchText, at: 0)
+        
+        filteredSearchHistory = searchHistory
+    }
+    
     func tableViewToTop(){
-        let index = IndexPath(row: 0, section: 0)
-        self.tableView.scrollToRow(at: index, at: .top, animated: false)
+        
+        let indexPath = IndexPath(row: 0, section: 0)
+        if tableView.numberOfRows(inSection: indexPath.section) > indexPath.row {
+            tableView.scrollToRow(at: indexPath, at: .top, animated: false)
+        }
+        
     }
     
 }
@@ -198,18 +216,23 @@ extension ViewController: UISearchBarDelegate {
                 self?.view.isUserInteractionEnabled = true
                 self?.tableView.reloadData()
                 
-                
                 self?.activityIndicator.stopAnimating()
             }
         }
-        searchHistory.append(searchText)
         
-        let removedDuplicate: Set = Set(searchHistory)
+        searchHistorySet(searchText)
         
-        UserDefaults.standard.set(Array(removedDuplicate), forKey: "searchHistory")
-        UserDefaults.standard.synchronize()
-        
-        filteredSearchHistory = searchHistory
+//        searchHistory.append(searchText)
+//
+//        searchHistory = Array(Set(searchHistory))
+//
+//        if let index = searchHistory.firstIndex(of: searchText) {
+//            searchHistory.remove(at: index)
+//        }
+//
+//        searchHistory.insert(searchText, at: 0)
+//
+//        filteredSearchHistory = searchHistory
         
         searchBar.resignFirstResponder()
     }
@@ -317,6 +340,8 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             
         }else{
             let searchText = searchHistory[indexPath.row]
+            
+            searchHistorySet(searchText)
             
             view.isUserInteractionEnabled = false
             

@@ -113,8 +113,7 @@ final class appStoreSearchTests: XCTestCase {
     
     func testHistoryTableViewDidSelectRowAt() throws {
         let tableView = viewController.historySerachTableView
-        
-        viewController.filteredSearchHistory = ["카카오", "다음"]
+        viewController.searchHistory = ["카카오", "다음"]
         tableView!.reloadData()
         
         let indexPath = IndexPath(row: 0, section: 0)
