@@ -56,7 +56,7 @@ class ViewController: UIViewController {
         
         historySerachTableView.delegate = self
         historySerachTableView.dataSource = self
-        
+        historySerachTableView.tableHeaderView = UIView()
         historySerachTableView.tableFooterView = UIView()
         
         tableView.delegate = self
@@ -170,37 +170,6 @@ extension ViewController: UISearchBarDelegate {
         
         headerUse = false
         historySerachTableView.tableHeaderView = nil
-    }
-    
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        
-        print("cancel button")
-        
-        topView.isHidden = false
-        
-        searchBar.text = ""
-        
-        searchBar.resignFirstResponder()
-        
-        mainViewCheck()
-        headerUse = true
-        
-        cancelBtn.isHidden = true
-        
-        view.constraints.filter { $0.firstItem === searchBar && $0.firstAttribute == .trailing }.forEach { $0.isActive = false }
-        
-        searchBar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8).isActive = true
-        
-        view.constraints.filter { $0.firstItem === searchBar && $0.firstAttribute == .top }.forEach { $0.isActive = false }
-        
-        searchBar.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 0).isActive = true
-        
-        filteredSearchHistory = searchHistory
-        
-        historySerachTableView.reloadData()
-        
-        
     }
     
     // TODO: 테이블 뷰 맨위로 올라가는 기능
