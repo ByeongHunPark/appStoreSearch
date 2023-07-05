@@ -39,7 +39,6 @@ class SearchAppStoreAPI: ObservableObject{
         let countryCode = "kr"
         
         let urlString = "https://itunes.apple.com/search?term=\(encodedTerm)&country=\(countryCode)&entity=software"
-//        let urlString = "https://itunes.apple.com/search?term=\(encodedTerm)&country=\(countryCode)&entity=software&limit=5"
         
         guard let url = URL(string: urlString) else {
             completion([])
