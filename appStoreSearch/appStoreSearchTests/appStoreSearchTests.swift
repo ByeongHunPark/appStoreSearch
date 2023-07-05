@@ -47,8 +47,8 @@ class DetailViewControllerTests: XCTestCase {
         XCTAssertNotNil(detailViewController.appIconImageView.image)
         XCTAssertEqual(detailViewController.titleLabel.text, "Test App")
         XCTAssertEqual(detailViewController.ratingView.rating, 4.5)
-        XCTAssertEqual(detailViewController.noteLabel.text, "Release notes for Test App")
-        XCTAssertEqual(detailViewController.descriptionLabel.text, "description for Test App")
+        XCTAssertEqual(detailViewController.noteLabel.text, "Release notes for Test App\nRelease notes for Test App\nRelease notes for Test App\nRelease notes for Test App\nRelease notes for Test App\n")
+        XCTAssertEqual(detailViewController.descriptionLabel.text, "This is a test app.\nThis is a test app.\nThis is a test app.\nThis is a test app.\nThis is a test app.\nThis is a test app.\n")
         
         XCTAssertEqual(detailViewController.noteMoreBtn.isHidden, false)
         XCTAssertEqual(detailViewController.descriptionMoreBtn.isHidden, false)
@@ -78,7 +78,7 @@ class DetailViewControllerTests: XCTestCase {
     func testDescriptionMoreBtnClicked() {
         let longText = "This is a test app.\nThis is a test app.\nThis is a test app.\nThis is a test app.\nThis is a test app.\nThis is a test app.\n"
         
-        XCTAssertEqual(detailViewController.noteLabel.text, detailViewController.truncatedText(longText, maxLines: 3))
+        XCTAssertEqual(detailViewController.descriptionLabel.text, detailViewController.truncatedText(longText, maxLines: 3))
         
         // noteMoreBtn을 클릭
         detailViewController.descriptionMoreBtn.sendActions(for: .touchUpInside)
