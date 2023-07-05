@@ -170,12 +170,18 @@ class ViewController: UIViewController {
 extension ViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
         if searchText.isEmpty || searchBar.text == "" {
             filteredSearchHistory = searchHistory
             headerUse = true
         } else {
             filteredSearchHistory = searchHistory.filter { $0.lowercased().contains(searchText.lowercased()) }
+            
+            headerUse = false
+            historySerachTableView.tableHeaderView = nil
         }
+        
+        
         
         historySerachTableView.reloadData()
     }
@@ -270,14 +276,16 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             cell.textLabel?.text = filteredSearchHistory[indexPath.row]
             cell.searchLabel.text = filteredSearchHistory[indexPath.row]
             
-            if searchBar.text != ""{
-                cell.textLabel?.isHidden = true
-                cell.iconImageView.isHidden = false
-                cell.searchLabel.isHidden = false
-            }else{
+            if headerUse{
+                print("여긴가1")
                 cell.textLabel?.isHidden = false
                 cell.iconImageView.isHidden = true
                 cell.searchLabel.isHidden = true
+            }else{
+                print("여긴가2")
+                cell.textLabel?.isHidden = true
+                cell.iconImageView.isHidden = false
+                cell.searchLabel.isHidden = false
             }
             
             return cell
