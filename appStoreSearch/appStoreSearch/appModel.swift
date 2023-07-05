@@ -17,8 +17,4 @@ struct App {
     let screenshotImageUrls: [String]
     let releaseNotes: String
     let description: String
-    
-    
-//    let trackContentRating : String
-//    let genres : String
 }

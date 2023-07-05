@@ -222,18 +222,6 @@ extension ViewController: UISearchBarDelegate {
         
         searchHistorySet(searchText)
         
-//        searchHistory.append(searchText)
-//
-//        searchHistory = Array(Set(searchHistory))
-//
-//        if let index = searchHistory.firstIndex(of: searchText) {
-//            searchHistory.remove(at: index)
-//        }
-//
-//        searchHistory.insert(searchText, at: 0)
-//
-//        filteredSearchHistory = searchHistory
-        
         searchBar.resignFirstResponder()
     }
     
@@ -328,8 +316,6 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             return 0
         }
     }
-    
-    // MARK: - Navigation
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         

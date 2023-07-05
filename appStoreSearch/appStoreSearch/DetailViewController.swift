@@ -141,7 +141,6 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
                     print("로드 성공")
                     
                     cell.configure(with: image)
-//                    cell.setCornerRadius(8)
                 } else {
                     print("로드 실패")
                 }

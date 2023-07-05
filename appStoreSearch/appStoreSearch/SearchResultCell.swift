@@ -59,10 +59,6 @@ class SearchResultCell: UITableViewCell {
     }
     
     private func setupRationView(){
-        
-        
-        
-//        CosmosSetting.disablePanGestures = true
         CosmosSetting.updateOnTouch = false
         CosmosSetting.filledColor = UIColor.systemGray2
         CosmosSetting.emptyBorderColor = UIColor.systemGray2
@@ -115,7 +111,6 @@ extension SearchResultCell: UICollectionViewDataSource, UICollectionViewDelegate
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // 컬렉션뷰 셀의 크기 설정
         
         let cellWidth = collectionView.bounds.width / 3.2
         let cellHeight = collectionView.bounds.height
