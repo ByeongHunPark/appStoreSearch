@@ -27,6 +27,10 @@ class ViewController: UIViewController{
     
     var headerUse : Bool = true
     
+    var offset : Int = 0
+    
+    var addSearch : Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -103,6 +107,8 @@ class ViewController: UIViewController{
         
         searchBar.text = ""
         
+        offset = 0
+        
         tableViewToTop()
         
         mainViewCheck()
@@ -127,6 +133,8 @@ class ViewController: UIViewController{
     @IBAction func clearBtnClicked(_ sender: Any) {
         
         searchBar.text = ""
+        
+        offset = 0
         
         tableViewToTop()
         
@@ -215,7 +223,7 @@ extension ViewController: UISearchBarDelegate {
         tableViewToTop()
         
         // 앱스토어 API 호출
-        searchAppStoreAPI.searchAppStore(with: searchText) { [weak self] results in
+        searchAppStoreAPI.searchAppStore(with: searchText, offset: offset) { [weak self] results in
             DispatchQueue.main.async {
                 self?.searchResults = results
                 self?.topView.isHidden = true
@@ -344,7 +352,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
             activityIndicator.startAnimating()
             
             // 앱스토어 API 호출
-            searchAppStoreAPI.searchAppStore(with: searchText) { [weak self] results in
+            searchAppStoreAPI.searchAppStore(with: searchText, offset: 0) { [weak self] results in
                 DispatchQueue.main.async {
                     
                     self?.searchResults = results
@@ -377,6 +385,44 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
         
         let app = searchResults[tableViewIndexPath!.row]
         performSegue(withIdentifier: "DetailSegue", sender: app)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if !self.tableView.isHidden{
+            let offsetY = scrollView.contentOffset.y
+            let contentHeight = scrollView.contentSize.height
+            let screenHeight = scrollView.frame.height
+            
+            if offsetY > contentHeight - screenHeight && addSearch{
+                loadMoreData()
+            }
+        }
+    }
+    
+    func loadMoreData() {
+        addSearch = false
+        view.isUserInteractionEnabled = false
+        offset = offset + 5
+        print("offset \(offset)")
+        
+        guard let searchText = searchBar.text else { return }
+        
+        activityIndicator.startAnimating()
+        
+        searchAppStoreAPI.addSearch(with: searchText, offset: offset, app: searchResults) { [weak self] results in
+            DispatchQueue.main.async {
+                self?.searchResults = results
+                self?.topView.isHidden = true
+                self?.mainView.isHidden = true
+                self?.tableView.isHidden = false
+                self?.view.isUserInteractionEnabled = true
+                self?.tableView.reloadData()
+                self?.addSearch = true
+                self?.activityIndicator.stopAnimating()
+            }
+        }
+        
+        
     }
     
 }

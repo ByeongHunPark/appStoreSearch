@@ -80,6 +80,14 @@ class DetailViewController: UIViewController {
         noteMoreBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
         descriptionMoreBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
         
+        if noteLabel.text == app.releaseNotes{
+            noteMoreBtn.isHidden = true
+        }
+        
+        if descriptionLabel.text == app.description{
+            descriptionMoreBtn.isHidden = true
+        }
+        
         downloadBtn.titleLabel?.textColor = UIColor.white
         downloadBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
         downloadBtn.backgroundColor = UIColor.systemBlue

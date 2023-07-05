@@ -22,27 +22,20 @@ class SearchResultCell: UITableViewCell {
     
     weak var delegate: SearchResultCellDelegate?
 
-    
     func configure(with app: App) {
         self.app = app
         
         setupRationView()
+        setupUI()
         
         screenshotCollectionView.dataSource = self
         screenshotCollectionView.delegate = self
-        
-        appIconImageView.layer.cornerRadius = appIconImageView.frame.width/5
-        appIconImageView.layer.borderWidth = 0.1
-        appIconImageView.layer.borderColor = UIColor.systemGray3.cgColor
         
         appIconImageView.image = app.iconImage
         titleLabel.text = app.name
         ratingView.rating = app.rating
         ratingView.text = formatNumber(app.userRatingCount)
         screenshotCollectionView.reloadData()
-        
-        setupUI()
-        
     }
     
     
@@ -50,10 +43,15 @@ class SearchResultCell: UITableViewCell {
         super.layoutSubviews()
         
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 40, right: 0))
-
     }
+
+    
     
     private func setupUI(){
+        appIconImageView.layer.cornerRadius = appIconImageView.frame.width/5
+        appIconImageView.layer.borderWidth = 0.1
+        appIconImageView.layer.borderColor = UIColor.systemGray3.cgColor
+        
         downloadBtn.titleLabel?.textColor = UIColor.systemBlue
         downloadBtn.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .bold)
         downloadBtn.backgroundColor = UIColor.systemGray6

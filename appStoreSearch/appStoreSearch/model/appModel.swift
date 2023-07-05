@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct App {
+struct App : Hashable{
     let name: String
     let rating: Double
     let userRatingCount : Int
@@ -17,4 +17,10 @@ struct App {
     let screenshotImageUrls: [String]
     let releaseNotes: String
     let description: String
+}
+
+extension App : Equatable{
+    static func ==(lhs: App, rhs: App) -> Bool {
+        return lhs.name == rhs.name
+    }
 }
