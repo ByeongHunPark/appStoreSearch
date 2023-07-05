@@ -31,6 +31,8 @@ class ViewController: UIViewController{
     
     var addSearch : Bool = true
     
+    let overlayView = UIView(frame: UIScreen.main.bounds)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,6 +53,8 @@ class ViewController: UIViewController{
         if let savedSearchHistory = UserDefaults.standard.stringArray(forKey: "searchHistory"){
             searchHistory = savedSearchHistory
         }
+    
+        
         
         filteredSearchHistory = searchHistory
         
@@ -78,9 +82,11 @@ class ViewController: UIViewController{
             button.addTarget(self, action: #selector(clearBtnClicked), for: .touchUpInside)
         }
         
+        overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         
         activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.center = view.center
+        
         view.addSubview(activityIndicator)
     }
     
@@ -219,6 +225,7 @@ extension ViewController: UISearchBarDelegate {
         if searchText != ""{
             view.isUserInteractionEnabled = false
             
+            view.addSubview(overlayView)
             activityIndicator.startAnimating()
             
             tableViewToTop()
@@ -232,7 +239,7 @@ extension ViewController: UISearchBarDelegate {
                     self?.tableView.isHidden = false
                     self?.view.isUserInteractionEnabled = true
                     self?.tableView.reloadData()
-                    
+                    self?.overlayView.removeFromSuperview()
                     self?.activityIndicator.stopAnimating()
                 }
             }
@@ -360,6 +367,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
             
             view.isUserInteractionEnabled = false
             
+            view.addSubview(overlayView)
             activityIndicator.startAnimating()
             
             // 앱스토어 API 호출
@@ -371,6 +379,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
                     self?.tableView.isHidden = false
                     self?.view.isUserInteractionEnabled = true
                     self?.tableView.reloadData()
+                    self?.overlayView.removeFromSuperview()
                     self?.activityIndicator.stopAnimating()
                 }
             }
@@ -418,6 +427,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
         
         guard let searchText = searchBar.text else { return }
         
+        view.addSubview(overlayView)
         activityIndicator.startAnimating()
         
         searchAppStoreAPI.addSearch(with: searchText, offset: offset, app: searchResults) { [weak self] results in
@@ -429,6 +439,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
                 self?.view.isUserInteractionEnabled = true
                 self?.tableView.reloadData()
                 self?.addSearch = true
+                self?.overlayView.removeFromSuperview()
                 self?.activityIndicator.stopAnimating()
             }
         }
