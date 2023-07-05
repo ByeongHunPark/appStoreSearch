@@ -216,29 +216,40 @@ extension ViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
         
-        view.isUserInteractionEnabled = false
-        
-        activityIndicator.startAnimating()
-        
-        tableViewToTop()
-        
-        // 앱스토어 API 호출
-        searchAppStoreAPI.searchAppStore(with: searchText, offset: offset) { [weak self] results in
-            DispatchQueue.main.async {
-                self?.searchResults = results
-                self?.topView.isHidden = true
-                self?.mainView.isHidden = true
-                self?.tableView.isHidden = false
-                self?.view.isUserInteractionEnabled = true
-                self?.tableView.reloadData()
-                
-                self?.activityIndicator.stopAnimating()
+        if searchText != ""{
+            view.isUserInteractionEnabled = false
+            
+            activityIndicator.startAnimating()
+            
+            tableViewToTop()
+            
+            // 앱스토어 API 호출
+            searchAppStoreAPI.searchAppStore(with: searchText, offset: offset) { [weak self] results in
+                DispatchQueue.main.async {
+                    self?.searchResults = results
+                    self?.topView.isHidden = true
+                    self?.mainView.isHidden = true
+                    self?.tableView.isHidden = false
+                    self?.view.isUserInteractionEnabled = true
+                    self?.tableView.reloadData()
+                    
+                    self?.activityIndicator.stopAnimating()
+                }
             }
+            
+            searchHistorySet(searchText)
+            
+            searchBar.resignFirstResponder()
+        }else{
+            let alertController = UIAlertController(title: "검색어가 없습니다.", message: "검색어를 입력해주세요.", preferredStyle: .alert)
+            
+            let OKAction = UIAlertAction(title: "확인", style: .default) { (action) in
+                alertController.dismiss(animated: true)
+            }
+            alertController.addAction(OKAction)
+            
+            self.present(alertController, animated: true)
         }
-        
-        searchHistorySet(searchText)
-        
-        searchBar.resignFirstResponder()
     }
     
 }

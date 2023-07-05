@@ -50,8 +50,8 @@ final class appStoreSearchTests: XCTestCase {
     func testSearchAppStore() throws {
         let expectation = XCTestExpectation(description: "Search App Store")
         
-        searchAppStoreAPI.searchAppStore(with: "카카오") { apps in
-            XCTAssertFalse(apps.isEmpty, "Search results should not be empty")
+        searchAppStoreAPI.searchAppStore(with: "", offset: 0) { apps in
+            XCTAssertTrue(apps.isEmpty, "검색어 없는 검색결과 오류")
             expectation.fulfill()
         }
         
@@ -64,7 +64,7 @@ final class appStoreSearchTests: XCTestCase {
         
         viewController.searchBar(UISearchBar(), textDidChange: searchText)
         
-        XCTAssertEqual(viewController.filteredSearchHistory, ["카카오"], "Filtered search history should contain the search text")
+        XCTAssertEqual(viewController.filteredSearchHistory, ["카카오"], "필터링 오류")
         
     }
     
@@ -72,13 +72,13 @@ final class appStoreSearchTests: XCTestCase {
         viewController.searchBar.text = "avbx"
         viewController.cancelBtn.sendActions(for: .touchUpInside)
         
-        XCTAssertFalse(viewController.topView.isHidden, "Top view should be hidden")
-        XCTAssertEqual(viewController.searchBar.text, "", "Search bar text should be empty")
-        XCTAssertFalse(viewController.mainView.isHidden, "Main view should be hidden")
-        XCTAssertTrue(viewController.headerUse, "Header use should be true")
-        XCTAssertTrue(viewController.cancelBtn.isHidden, "Cancel button should be hidden")
+        XCTAssertFalse(viewController.topView.isHidden, "topView가 hidden처리 됌.")
+        XCTAssertEqual(viewController.searchBar.text, "", "searchBar text가 비워지지 않음.")
+        XCTAssertFalse(viewController.mainView.isHidden, "mainview가 hidden처리 됌.")
+        XCTAssertTrue(viewController.headerUse, "Header가 hidden처리 됌.")
+        XCTAssertTrue(viewController.cancelBtn.isHidden, "cancelBtn이 hidden처리 됌.")
         
-        XCTAssertEqual(viewController.filteredSearchHistory, viewController.searchHistory, "Filtered search history should be equal to search history")
+        XCTAssertEqual(viewController.filteredSearchHistory, viewController.searchHistory, "검색기록 목록과 필터링 목록이 다름.")
     }
     
     func testHistoryTableViewNumberOfRowsInSection() throws {
@@ -86,19 +86,19 @@ final class appStoreSearchTests: XCTestCase {
         let tableView = viewController.historySerachTableView
         
         let numberOfRows = viewController.filteredSearchHistory.count
-        XCTAssertEqual(tableView!.numberOfRows(inSection: 0), numberOfRows, "Number of rows should be equal to the count of filtered search history")
+        XCTAssertEqual(tableView!.numberOfRows(inSection: 0), numberOfRows, "필터링 목록과 tableView의 row가 다름")
     }
     
     func testHistoryTableViewCellForRowAt() throws {
         
         let tableView = viewController.historySerachTableView
         
-        viewController.filteredSearchHistory = ["game", "app"]
+        viewController.filteredSearchHistory = ["카카오", "다음"]
         tableView!.reloadData()
         
         let indexPath = IndexPath(row: 0, section: 0)
         let cell = tableView!.cellForRow(at: indexPath) as? SearchHistoryCell
-        XCTAssertEqual(cell?.textLabel?.text, "game", "Cell text label should be equal to the filtered search history item")
+        XCTAssertEqual(cell?.textLabel?.text, "카카오", "cell의 textLabel과 필터링 항목이 다름")
     }
     
     func testHistoryTableViewHeightForHeaderInSection() throws {
@@ -108,7 +108,7 @@ final class appStoreSearchTests: XCTestCase {
         tableView!.sectionHeaderHeight = 40
         
         let sectionHeaderHeight = viewController.tableView(tableView!, heightForHeaderInSection: 0)
-        XCTAssertEqual(sectionHeaderHeight, tableView!.sectionHeaderHeight, "Section header height should be equal to the custom height")
+        XCTAssertEqual(sectionHeaderHeight, tableView!.sectionHeaderHeight, "header의 높이가 설정과 다름.")
     }
     
     func testHistoryTableViewDidSelectRowAt() throws {
@@ -119,81 +119,80 @@ final class appStoreSearchTests: XCTestCase {
         let indexPath = IndexPath(row: 0, section: 0)
         viewController.tableView(tableView!, didSelectRowAt: indexPath)
         
-        XCTAssertEqual(viewController.searchBar.text, "다음", "Search bar text should be equal to the selected search history item")
+        XCTAssertEqual(viewController.searchBar.text, "다음", "searchBar.textd와 선택한 기록이 다름")
     }
     
     func testTableViewHasCells() {
         
-        searchAppStoreAPI.searchAppStore(with: "카카오") { [self] apps in
+        searchAppStoreAPI.searchAppStore(with: "카카오", offset: 0) { [self] apps in
             let indexPath = IndexPath(row: 0, section: 0)
             let cell = viewController.tableView(viewController.tableView, cellForRowAt: indexPath)
             
-            XCTAssertNotNil(cell)
-            XCTAssertTrue(cell is SearchResultCell)
+            XCTAssertNotNil(cell, "cell이 존재하지 않음")
+            XCTAssertTrue(cell is SearchResultCell, "cell이 SearchResultCell 타입이 아님.")
         }
     }
     
     func testTableViewSelection() {
         
-        searchAppStoreAPI.searchAppStore(with: "카카오") { [self] apps in
+        searchAppStoreAPI.searchAppStore(with: "카카오", offset: 0) { [self] apps in
             let indexPath = IndexPath(row: 0, section: 0)
             
-            // Simulate a cell selection
             viewController.tableView.delegate?.tableView?(viewController.tableView, didSelectRowAt: indexPath)
             
-            XCTAssertNotNil(detailViewController)
-            XCTAssertTrue(detailViewController != nil)
+            XCTAssertNotNil(detailViewController, "detailViewController가 존재하지 않음")
         }
         
     }
     
     func testUIElements() {
+        
         let textNote = detailViewController.truncatedText(detailViewController.app.releaseNotes, maxLines: 3)
         let textDescription = detailViewController.truncatedText(detailViewController.app.description, maxLines: 3)
         
-        XCTAssertNotNil(detailViewController.appIconImageView.image)
-        XCTAssertEqual(detailViewController.titleLabel.text, "Test App")
-        XCTAssertEqual(detailViewController.ratingView.rating, 4.5)
-        XCTAssertEqual(detailViewController.noteLabel.text, textNote)
-        XCTAssertEqual(detailViewController.descriptionLabel.text, textDescription)
+        XCTAssertNotNil(detailViewController.appIconImageView.image, "detailViewController.appIconImageView.image가 존재하지 않음")
+        XCTAssertEqual(detailViewController.titleLabel.text, name, "detailViewController.titleLabel.text가 정보와 다름")
+        XCTAssertEqual(detailViewController.ratingView.rating, detailViewController.app.rating, "detailViewController.ratingView.rating이 정보와 다름")
+        XCTAssertEqual(detailViewController.noteLabel.text, textNote, "detailViewController.noteLabel.text가 정보와 다름")
+        XCTAssertEqual(detailViewController.descriptionLabel.text, textDescription, "detailViewController.descriptionLabel.text가 정보와 다름")
         
-        XCTAssertEqual(detailViewController.noteMoreBtn.isHidden, false)
-        XCTAssertEqual(detailViewController.descriptionMoreBtn.isHidden, false)
+        XCTAssertEqual(detailViewController.noteMoreBtn.isHidden, false, "detailViewController.noteMoreBtn이 hidden처리 됌")
+        XCTAssertEqual(detailViewController.descriptionMoreBtn.isHidden, false, "detailViewController.descriptionMoreBtn이 hidden처리 됌")
     }
     
     func testTruncatedText() {
         let longText = "This is a long description\n that needs to be truncated."
         let truncatedText = detailViewController.truncatedText(longText, maxLines: 1)
         
-        XCTAssertEqual(truncatedText, "This is a long description")
+        XCTAssertEqual(truncatedText, "This is a long description", "truncatedText 오류")
     }
     
     func testNoteMoreBtnClicked() {
         let textNote = detailViewController.truncatedText(detailViewController.app.releaseNotes, maxLines: 3)
         
-        XCTAssertEqual(detailViewController.noteLabel.text, textNote)
+        XCTAssertEqual(detailViewController.noteLabel.text, textNote, "detailViewController.noteLabel.text가 설정과 다름")
         
         // noteMoreBtn을 클릭
         detailViewController.noteMoreBtn.sendActions(for: .touchUpInside)
         
         // noteLabel의 텍스트가 전체 내용으로 변경되었는지 확인
-        XCTAssertEqual(detailViewController.noteLabel.text, detailViewController.app.releaseNotes)
+        XCTAssertEqual(detailViewController.noteLabel.text, detailViewController.app.releaseNotes, "detailViewController.noteMoreBtn이 작동하지 않음")
         // noteMoreBtn이 숨겨져 있는지 확인
-        XCTAssertTrue(detailViewController.noteMoreBtn.isHidden)
+        XCTAssertTrue(detailViewController.noteMoreBtn.isHidden, "detailViewController.noteMoreBtn이 hidden처리 안됌")
     }
     
     func testDescriptionMoreBtnClicked() {
         let textDescription = detailViewController.truncatedText(detailViewController.app.description, maxLines: 3)
         
-        XCTAssertEqual(detailViewController.descriptionLabel.text, textDescription)
+        XCTAssertEqual(detailViewController.descriptionLabel.text, textDescription, "detailViewController.descriptionLabel.text가 설정과 다름")
         
         // noteMoreBtn을 클릭
         detailViewController.descriptionMoreBtn.sendActions(for: .touchUpInside)
         
         // noteLabel의 텍스트가 전체 내용으로 변경되었는지 확인
-        XCTAssertEqual(detailViewController.descriptionLabel.text, detailViewController.app.description)
+        XCTAssertEqual(detailViewController.descriptionLabel.text, detailViewController.app.description, "detailViewController.descriptionMoreBtn이 작동하지 않음")
         // noteMoreBtn이 숨겨져 있는지 확인
-        XCTAssertTrue(detailViewController.descriptionMoreBtn.isHidden)
+        XCTAssertTrue(detailViewController.descriptionMoreBtn.isHidden, "detailViewController.descriptionMoreBtn이 hidden처리 안됌")
     }
     
     
