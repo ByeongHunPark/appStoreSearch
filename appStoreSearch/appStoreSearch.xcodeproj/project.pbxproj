@@ -86,6 +86,58 @@
 			path = appStoreSearchTests;
 			sourceTree = "<group>";
 		};
+		14DE52002A552D660091D1FE /* viewController */ = {
+			isa = PBXGroup;
+			children = (
+				6C029C062A505BED00DC2FB5 /* ViewController.swift */,
+				6C029C182A505DFE00DC2FB5 /* DetailViewController.swift */,
+			);
+			path = viewController;
+			sourceTree = "<group>";
+		};
+		14DE52012A552D830091D1FE /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				14DE51CA2A52BB210091D1FE /* SearchHistoryCell.swift */,
+				6C029C162A505DE200DC2FB5 /* SearchResultCell.swift */,
+				14DE51C02A5259850091D1FE /* ScreenshotCell.swift */,
+			);
+			path = cell;
+			sourceTree = "<group>";
+		};
+		14DE52022A552D980091D1FE /* model */ = {
+			isa = PBXGroup;
+			children = (
+				6C029C1A2A505E1C00DC2FB5 /* appModel.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		14DE52032A552D9D0091D1FE /* API */ = {
+			isa = PBXGroup;
+			children = (
+				14DE51EB2A54EC890091D1FE /* SearchAppStoreAPI.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		14DE52042A552DA80091D1FE /* stroyboard */ = {
+			isa = PBXGroup;
+			children = (
+				6C029C082A505BED00DC2FB5 /* Main.storyboard */,
+				6C029C0D2A505BEF00DC2FB5 /* LaunchScreen.storyboard */,
+			);
+			path = stroyboard;
+			sourceTree = "<group>";
+		};
+		14DE52052A552DCC0091D1FE /* common */ = {
+			isa = PBXGroup;
+			children = (
+				14DE51C82A52B8030091D1FE /* Format.swift */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
 		6C029BF62A505BED00DC2FB5 = {
 			isa = PBXGroup;
 			children = (
@@ -110,17 +162,13 @@
 			children = (
 				6C029C022A505BED00DC2FB5 /* AppDelegate.swift */,
 				6C029C042A505BED00DC2FB5 /* SceneDelegate.swift */,
-				6C029C062A505BED00DC2FB5 /* ViewController.swift */,
-				14DE51EB2A54EC890091D1FE /* SearchAppStoreAPI.swift */,
-				6C029C182A505DFE00DC2FB5 /* DetailViewController.swift */,
-				6C029C1A2A505E1C00DC2FB5 /* appModel.swift */,
-				6C029C082A505BED00DC2FB5 /* Main.storyboard */,
-				14DE51CA2A52BB210091D1FE /* SearchHistoryCell.swift */,
-				6C029C162A505DE200DC2FB5 /* SearchResultCell.swift */,
-				14DE51C02A5259850091D1FE /* ScreenshotCell.swift */,
-				14DE51C82A52B8030091D1FE /* Format.swift */,
+				14DE52042A552DA80091D1FE /* stroyboard */,
+				14DE52032A552D9D0091D1FE /* API */,
+				14DE52022A552D980091D1FE /* model */,
+				14DE52002A552D660091D1FE /* viewController */,
+				14DE52012A552D830091D1FE /* cell */,
+				14DE52052A552DCC0091D1FE /* common */,
 				6C029C0B2A505BEF00DC2FB5 /* Assets.xcassets */,
-				6C029C0D2A505BEF00DC2FB5 /* LaunchScreen.storyboard */,
 				6C029C102A505BEF00DC2FB5 /* Info.plist */,
 			);
 			path = appStoreSearch;
