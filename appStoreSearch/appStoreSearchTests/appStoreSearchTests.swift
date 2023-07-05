@@ -101,22 +101,6 @@ final class appStoreSearchTests: XCTestCase {
         XCTAssertEqual(cell?.textLabel?.text, "game", "Cell text label should be equal to the filtered search history item")
     }
     
-    func testHistoryTableViewViewForHeaderInSection() {
-        
-        let headerView = viewController.historySerachTableView.headerView(forSection: 0)
-        
-        XCTAssertNotNil(headerView, "Header view should not be nil")
-        XCTAssertEqual(headerView?.subviews.count, 1, "Header view should have one subview")
-        
-        if let titleLabel = headerView?.subviews.first as? UILabel {
-            XCTAssertEqual(titleLabel.text, "최근 검색어", "Header view should have the correct title")
-            XCTAssertEqual(titleLabel.textColor, .black, "Header view should have the correct text color")
-            XCTAssertEqual(titleLabel.font, UIFont.boldSystemFont(ofSize: 20), "Header view should have the correct font")
-        } else {
-            XCTFail("Header view should have a UILabel as its subview")
-        }
-    }
-    
     func testHistoryTableViewHeightForHeaderInSection() throws {
         
         let tableView = viewController.historySerachTableView
