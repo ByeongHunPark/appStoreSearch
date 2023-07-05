@@ -178,6 +178,16 @@ class ViewController: UIViewController{
         
     }
     
+    func indicatorStart(_ start:Bool){
+        if start{
+            view.addSubview(overlayView)
+            activityIndicator.startAnimating()
+        }else{
+            overlayView.removeFromSuperview()
+            activityIndicator.stopAnimating()
+        }
+    }
+    
 }
 
 extension ViewController: UISearchBarDelegate {
@@ -219,14 +229,14 @@ extension ViewController: UISearchBarDelegate {
     }
     
     
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
         
         if searchText != ""{
             view.isUserInteractionEnabled = false
             
-            view.addSubview(overlayView)
-            activityIndicator.startAnimating()
+            indicatorStart(true)
             
             tableViewToTop()
             
@@ -239,8 +249,7 @@ extension ViewController: UISearchBarDelegate {
                     self?.tableView.isHidden = false
                     self?.view.isUserInteractionEnabled = true
                     self?.tableView.reloadData()
-                    self?.overlayView.removeFromSuperview()
-                    self?.activityIndicator.stopAnimating()
+                    self?.indicatorStart(false)
                 }
             }
             
@@ -367,8 +376,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
             
             view.isUserInteractionEnabled = false
             
-            view.addSubview(overlayView)
-            activityIndicator.startAnimating()
+            indicatorStart(true)
             
             // 앱스토어 API 호출
             searchAppStoreAPI.searchAppStore(with: searchText, offset: 0) { [weak self] results in
@@ -379,8 +387,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
                     self?.tableView.isHidden = false
                     self?.view.isUserInteractionEnabled = true
                     self?.tableView.reloadData()
-                    self?.overlayView.removeFromSuperview()
-                    self?.activityIndicator.stopAnimating()
+                    self?.indicatorStart(false)
                 }
             }
             
@@ -427,8 +434,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
         
         guard let searchText = searchBar.text else { return }
         
-        view.addSubview(overlayView)
-        activityIndicator.startAnimating()
+        indicatorStart(true)
         
         searchAppStoreAPI.addSearch(with: searchText, offset: offset, app: searchResults) { [weak self] results in
             DispatchQueue.main.async {
@@ -439,8 +445,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
                 self?.view.isUserInteractionEnabled = true
                 self?.tableView.reloadData()
                 self?.addSearch = true
-                self?.overlayView.removeFromSuperview()
-                self?.activityIndicator.stopAnimating()
+                self?.indicatorStart(false)
             }
         }
         
@@ -448,20 +453,3 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
     }
     
 }
-
-
-extension ViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // collectionView의 셀을 선택한 경우에 수행할 동작을 구현합니다.
-        // 예를 들어, collectionView의 셀을 선택했을 때의 동작을 처리하고 싶다면 이곳에 해당 동작을 추가합니다.
-        
-        // ...
-
-        // tableView의 didSelectRowAt 동작이 실행되지 않도록 하기 위해
-        // collectionView의 셀 선택 후에는 return을 사용하여 함수를 종료합니다.
-        return
-    }
-}
-
-
-
