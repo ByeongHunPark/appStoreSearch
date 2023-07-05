@@ -3,7 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -28,7 +28,7 @@
         <!--검색-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="검색" id="BYZ-38-t0r" customClass="ViewController" customModule="appStoreSearch" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="ViewController" storyboardIdentifier="ViewController" title="검색" id="BYZ-38-t0r" customClass="ViewController" customModule="appStoreSearch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -280,7 +280,7 @@
         <!--디테일-->
         <scene sceneID="Qm6-9u-YtX">
             <objects>
-                <viewController id="au5-iQ-q0h" customClass="DetailViewController" customModule="appStoreSearch" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="DetailViewController" storyboardIdentifier="DetailViewController" id="au5-iQ-q0h" customClass="DetailViewController" customModule="appStoreSearch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="br4-Y0-0Fy">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="1200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
