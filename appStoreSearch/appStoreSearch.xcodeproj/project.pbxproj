@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		14DE51BD2A5247200091D1FE /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE51BC2A5247200091D1FE /* SearchViewController.swift */; };
 		14DE51C12A5259850091D1FE /* ScreenshotCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE51C02A5259850091D1FE /* ScreenshotCell.swift */; };
 		14DE51C92A52B8030091D1FE /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE51C82A52B8030091D1FE /* Format.swift */; };
 		14DE51CB2A52BB210091D1FE /* SearchHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DE51CA2A52BB210091D1FE /* SearchHistoryCell.swift */; };
@@ -38,7 +37,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		14DE51BC2A5247200091D1FE /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		14DE51C02A5259850091D1FE /* ScreenshotCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotCell.swift; sourceTree = "<group>"; };
 		14DE51C82A52B8030091D1FE /* Format.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
 		14DE51CA2A52BB210091D1FE /* SearchHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryCell.swift; sourceTree = "<group>"; };
@@ -114,7 +112,6 @@
 				6C029C042A505BED00DC2FB5 /* SceneDelegate.swift */,
 				6C029C062A505BED00DC2FB5 /* ViewController.swift */,
 				14DE51EB2A54EC890091D1FE /* SearchAppStoreAPI.swift */,
-				14DE51BC2A5247200091D1FE /* SearchViewController.swift */,
 				6C029C182A505DFE00DC2FB5 /* DetailViewController.swift */,
 				6C029C1A2A505E1C00DC2FB5 /* appModel.swift */,
 				6C029C082A505BED00DC2FB5 /* Main.storyboard */,
@@ -260,7 +257,6 @@
 				14DE51CB2A52BB210091D1FE /* SearchHistoryCell.swift in Sources */,
 				14DE51C92A52B8030091D1FE /* Format.swift in Sources */,
 				14DE51EC2A54EC890091D1FE /* SearchAppStoreAPI.swift in Sources */,
-				14DE51BD2A5247200091D1FE /* SearchViewController.swift in Sources */,
 				14DE51C12A5259850091D1FE /* ScreenshotCell.swift in Sources */,
 				6C029C032A505BED00DC2FB5 /* AppDelegate.swift in Sources */,
 				6C029C192A505DFE00DC2FB5 /* DetailViewController.swift in Sources */,

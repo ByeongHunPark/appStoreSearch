@@ -113,13 +113,13 @@ final class appStoreSearchTests: XCTestCase {
     
     func testHistoryTableViewDidSelectRowAt() throws {
         let tableView = viewController.historySerachTableView
-        viewController.searchHistory = ["카카오", "다음"]
+        viewController.searchHistory = ["다음", "카카오"]
         tableView!.reloadData()
         
         let indexPath = IndexPath(row: 0, section: 0)
         viewController.tableView(tableView!, didSelectRowAt: indexPath)
         
-        XCTAssertEqual(viewController.searchBar.text, "카카오", "Search bar text should be equal to the selected search history item")
+        XCTAssertEqual(viewController.searchBar.text, "다음", "Search bar text should be equal to the selected search history item")
     }
     
     func testTableViewHasCells() {
