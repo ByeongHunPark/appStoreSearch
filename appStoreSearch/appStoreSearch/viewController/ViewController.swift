@@ -8,7 +8,8 @@
 import UIKit
 import Combine
 
-class ViewController: UIViewController {
+class ViewController: UIViewController{
+    
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
@@ -234,7 +235,7 @@ extension ViewController: UISearchBarDelegate {
     
 }
 
-extension ViewController: UITableViewDataSource, UITableViewDelegate {
+extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResultCellDelegate {
     // MARK: - UITableView DataSource & Delegate
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -266,6 +267,8 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             
             cell.selectionStyle = .none
             
+            cell.delegate = self
+            
             cell.configure(with: app)
             
             return cell
@@ -275,12 +278,10 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             cell.searchLabel.text = filteredSearchHistory[indexPath.row]
             
             if headerUse{
-                print("여긴가1")
                 cell.textLabel?.isHidden = false
                 cell.iconImageView.isHidden = true
                 cell.searchLabel.isHidden = true
             }else{
-                print("여긴가2")
                 cell.textLabel?.isHidden = true
                 cell.iconImageView.isHidden = false
                 cell.searchLabel.isHidden = false
@@ -369,6 +370,13 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             searchBar.text = searchText
             searchBar.resignFirstResponder()
         }
+    }
+    
+    func searchResultCell(_ cell: SearchResultCell, didSelectItemAt indexPath: IndexPath) {
+        let tableViewIndexPath = tableView.indexPath(for: cell)
+        
+        let app = searchResults[tableViewIndexPath!.row]
+        performSegue(withIdentifier: "DetailSegue", sender: app)
     }
     
 }

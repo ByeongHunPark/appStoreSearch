@@ -20,6 +20,9 @@ class SearchResultCell: UITableViewCell {
     
     var CosmosSetting = CosmosSettings()
     
+    weak var delegate: SearchResultCellDelegate?
+
+    
     func configure(with app: App) {
         self.app = app
         
@@ -70,7 +73,6 @@ class SearchResultCell: UITableViewCell {
         CosmosSetting.textFont = UIFont.systemFont(ofSize: 13)
         
         ratingView.settings = CosmosSetting
-        
     }
     
 }
@@ -108,6 +110,12 @@ extension SearchResultCell: UICollectionViewDataSource, UICollectionViewDelegate
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("collectionView click")
+        
+        delegate?.searchResultCell(self, didSelectItemAt: indexPath)
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
@@ -136,4 +144,8 @@ extension SearchResultCell: UICollectionViewDataSource, UICollectionViewDelegate
         }.resume()
     }
     
+}
+
+protocol SearchResultCellDelegate: AnyObject {
+    func searchResultCell(_ cell: SearchResultCell, didSelectItemAt indexPath: IndexPath)
 }
