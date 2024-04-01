@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Combine
 
 class ViewController: UIViewController{
     
@@ -14,7 +13,7 @@ class ViewController: UIViewController{
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var mainView: UIView!
-    @IBOutlet weak var historySerachTableView: UITableView!
+    @IBOutlet weak var historySearchTableView: UITableView!
     @IBOutlet weak var cancelBtn: UIButton!
     
     let searchAppStoreAPI = SearchAppStoreAPI.shared
@@ -54,17 +53,15 @@ class ViewController: UIViewController{
             searchHistory = savedSearchHistory
         }
     
-        
-        
         filteredSearchHistory = searchHistory
         
         searchBar.delegate = self
         searchBar.placeholder = "게임, 앱, 스토리 등"
         
-        historySerachTableView.delegate = self
-        historySerachTableView.dataSource = self
-        historySerachTableView.tableHeaderView = UIView()
-        historySerachTableView.tableFooterView = UIView()
+        historySearchTableView.delegate = self
+        historySearchTableView.dataSource = self
+        historySearchTableView.tableHeaderView = UIView()
+        historySearchTableView.tableFooterView = UIView()
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -72,7 +69,7 @@ class ViewController: UIViewController{
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
         tableView.keyboardDismissMode = .onDrag
-        historySerachTableView.keyboardDismissMode = .onDrag
+        historySearchTableView.keyboardDismissMode = .onDrag
         
         
         searchBar.searchBarStyle = .minimal
@@ -90,6 +87,21 @@ class ViewController: UIViewController{
         view.addSubview(activityIndicator)
     }
     
+    func fetchSearchResults(for searchText: String) {
+        // API 호출을 시작하기 전에 필요한 UI 업데이트를 수행할 수 있습니다.
+        
+        // 백그라운드에서 API를 호출합니다.
+        DispatchQueue.global().async {
+            // API 호출 및 결과를 받아오는 로직을 구현합니다.
+            self.searchAppStoreAPI.searchAppStore(with: searchText, offset: self.offset) { [weak self] results in
+                // API 호출이 완료되면 메인 스레드에서 UI를 업데이트합니다.
+                DispatchQueue.main.async {
+                    self?.searchResults = results
+                    self?.tableView.reloadData()
+                }
+            }
+        }
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -132,7 +144,7 @@ class ViewController: UIViewController{
         
         filteredSearchHistory = searchHistory
         
-        historySerachTableView.reloadData()
+        historySearchTableView.reloadData()
         
     }
     
@@ -167,6 +179,8 @@ class ViewController: UIViewController{
         UserDefaults.standard.synchronize()
         
         filteredSearchHistory = searchHistory
+        
+        historySearchTableView.reloadData()
     }
     
     func tableViewToTop(){
@@ -201,12 +215,12 @@ extension ViewController: UISearchBarDelegate {
             filteredSearchHistory = searchHistory.filter { $0.lowercased().contains(searchText.lowercased()) }
             
             headerUse = false
-            historySerachTableView.tableHeaderView = nil
+            historySearchTableView.tableHeaderView = nil
         }
         
+//        self.fetchSearchResults(for: searchText)
         
-        
-        historySerachTableView.reloadData()
+        historySearchTableView.reloadData()
     }
     
     
@@ -225,7 +239,7 @@ extension ViewController: UISearchBarDelegate {
         cancelBtn.leadingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: -8).isActive = true
         
         headerUse = false
-        historySerachTableView.tableHeaderView = nil
+        historySearchTableView.tableHeaderView = nil
     }
     
     
@@ -252,6 +266,15 @@ extension ViewController: UISearchBarDelegate {
                     self?.indicatorStart(false)
                 }
             }
+            
+//            DispatchQueue.main.async {
+//                self.topView.isHidden = true
+//                self.mainView.isHidden = true
+//                self.tableView.isHidden = false
+//                self.view.isUserInteractionEnabled = true
+//                self.tableView.reloadData()
+//                self.indicatorStart(false)
+//            }
             
             searchHistorySet(searchText)
             
@@ -280,12 +303,12 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
         }else{
             
             if searchHistory.count == 0 {
-                historySerachTableView.setEmptyMessage("최근 검색어가 없습니다.")
+                historySearchTableView.setEmptyMessage("최근 검색어가 없습니다.")
                 
                 headerUse = false
                 
             } else {
-                historySerachTableView.restore()
+                historySearchTableView.restore()
             }
             
             return filteredSearchHistory.count
@@ -330,7 +353,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        if tableView == historySerachTableView{
+        if tableView == historySearchTableView{
             if headerUse{
                 let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
                 headerView.backgroundColor = UIColor.white
@@ -351,7 +374,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if tableView == historySerachTableView{
+        if tableView == historySearchTableView{
             if headerUse{
                 return 40
             }else{
@@ -370,6 +393,9 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
             performSegue(withIdentifier: "DetailSegue", sender: app)
             
         }else{
+            
+//             TODO: 검색 중 검색했던 내용에서 일치하는게 있으면 그걸 검색하는 기능인 것 같은데 최근 검색 맨 위만 검색됌.
+            
             let searchText = searchHistory[indexPath.row]
             
             searchHistorySet(searchText)

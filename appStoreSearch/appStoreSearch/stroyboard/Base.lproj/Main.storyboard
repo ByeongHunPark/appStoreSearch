@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Wzi-Qf-2Rf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Wzi-Qf-2Rf">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -265,7 +265,7 @@
                     <navigationItem key="navigationItem" title="검색" id="kYN-Od-bHL"/>
                     <connections>
                         <outlet property="cancelBtn" destination="Nw1-Xq-VQz" id="riJ-jb-XSg"/>
-                        <outlet property="historySerachTableView" destination="kUs-fg-Apz" id="Ene-9I-0nk"/>
+                        <outlet property="historySearchTableView" destination="kUs-fg-Apz" id="Mlr-fA-15R"/>
                         <outlet property="mainView" destination="Piw-qa-WTL" id="5B0-pm-pke"/>
                         <outlet property="searchBar" destination="hDO-QD-PmS" id="IJS-Ps-rpR"/>
                         <outlet property="tableView" destination="2sK-LE-b0B" id="CJa-bt-NgG"/>

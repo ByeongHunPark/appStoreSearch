@@ -83,7 +83,7 @@ final class appStoreSearchTests: XCTestCase {
     
     func testHistoryTableViewNumberOfRowsInSection() throws {
         
-        let tableView = viewController.historySerachTableView
+        let tableView = viewController.historySearchTableView
         
         let numberOfRows = viewController.filteredSearchHistory.count
         XCTAssertEqual(tableView!.numberOfRows(inSection: 0), numberOfRows, "필터링 목록과 tableView의 row가 다름")
@@ -91,7 +91,7 @@ final class appStoreSearchTests: XCTestCase {
     
     func testHistoryTableViewCellForRowAt() throws {
         
-        let tableView = viewController.historySerachTableView
+        let tableView = viewController.historySearchTableView
         
         viewController.filteredSearchHistory = ["카카오", "다음"]
         tableView!.reloadData()
@@ -103,7 +103,7 @@ final class appStoreSearchTests: XCTestCase {
     
     func testHistoryTableViewHeightForHeaderInSection() throws {
         
-        let tableView = viewController.historySerachTableView
+        let tableView = viewController.historySearchTableView
         
         tableView!.sectionHeaderHeight = 40
         
@@ -112,7 +112,7 @@ final class appStoreSearchTests: XCTestCase {
     }
     
     func testHistoryTableViewDidSelectRowAt() throws {
-        let tableView = viewController.historySerachTableView
+        let tableView = viewController.historySearchTableView
         viewController.searchHistory = ["다음", "카카오"]
         tableView!.reloadData()
         

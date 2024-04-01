@@ -260,6 +260,8 @@
 				14DE51CC2A53FF600091D1FE /* XCRemoteSwiftPackageReference "Cosmos" */,
 				14DE51ED2A54EE3A0091D1FE /* XCRemoteSwiftPackageReference "Alamofire" */,
 				14DE51F02A54EE4E0091D1FE /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				149BC5CD2BBA33AF0063D7B0 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				149BC5CE2BBA34070063D7B0 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 6C029C002A505BED00DC2FB5 /* Products */;
 			projectDirPath = "";
@@ -601,6 +603,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		149BC5CD2BBA33AF0063D7B0 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		149BC5CE2BBA34070063D7B0 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.6.0;
+			};
+		};
 		14DE51CC2A53FF600091D1FE /* XCRemoteSwiftPackageReference "Cosmos" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/evgenyneu/Cosmos";

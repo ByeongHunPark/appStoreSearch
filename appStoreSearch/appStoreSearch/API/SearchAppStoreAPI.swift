@@ -19,14 +19,14 @@ class SearchAppStoreAPI: ObservableObject{
     }
     
     func downloadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else {
+        AF.request(url).responseData { response in
+            guard let data = response.data else {
                 completion(nil)
                 return
             }
             let image = UIImage(data: data)
             completion(image)
-        }.resume()
+        }
     }
     
     func searchAppStore(with term: String, offset: Int,completion: @escaping ([App]) -> Void) {
@@ -38,7 +38,8 @@ class SearchAppStoreAPI: ObservableObject{
         
         let countryCode = "kr"
         
-        let urlString = "https://itunes.apple.com/search?term=\(encodedTerm)&country=\(countryCode)&entity=software&limit=5&offset=\(offset)"
+//        let urlString = "https://itunes.apple.com/search?term=\(encodedTerm)&country=\(countryCode)&entity=software&limit=5&offset=\(offset)"
+        let urlString = "https://itunes.apple.com/search?term=카카오톡&country=kr&entity=software&limit=1&offset=0"
         
         guard let url = URL(string: urlString) else {
             completion([])
@@ -59,10 +60,14 @@ class SearchAppStoreAPI: ObservableObject{
                             return
                         }
                         
+                        print(json)
+                        
                         var apps = [App]()
                         
                         let group = DispatchGroup()
                         let queue = DispatchQueue(label: "imageDownloadQueue", attributes: .concurrent)
+                        
+                        
                         
                         for result in results {
                             if let name = result["trackName"] as? String,
@@ -75,6 +80,9 @@ class SearchAppStoreAPI: ObservableObject{
                                let releaseNotes = result["releaseNotes"] as? String,
                                let screenshotUrlString = screenshotUrls.first,
                                let screenshotUrl = URL(string: screenshotUrlString) {
+                                
+//                                genres
+//                                trackContentRating or contentAdvisoryRating
                                 
                                 group.enter()
                                 
