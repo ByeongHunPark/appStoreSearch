@@ -38,8 +38,8 @@ class SearchAppStoreAPI: ObservableObject{
         
         let countryCode = "kr"
         
-//        let urlString = "https://itunes.apple.com/search?term=\(encodedTerm)&country=\(countryCode)&entity=software&limit=5&offset=\(offset)"
-        let urlString = "https://itunes.apple.com/search?term=카카오톡&country=kr&entity=software&limit=1&offset=0"
+        let urlString = "https://itunes.apple.com/search?term=\(encodedTerm)&country=\(countryCode)&entity=software&limit=5&offset=\(offset)"
+//        let urlString = "https://itunes.apple.com/search?term=카카오톡&country=kr&entity=software&limit=1&offset=0"
         
         guard let url = URL(string: urlString) else {
             completion([])
@@ -79,11 +79,11 @@ class SearchAppStoreAPI: ObservableObject{
                                let description = result["description"] as? String,
                                let releaseNotes = result["releaseNotes"] as? String,
                                let screenshotUrlString = screenshotUrls.first,
-                               let screenshotUrl = URL(string: screenshotUrlString) {
-                                
-//                                genres
-//                                trackContentRating or contentAdvisoryRating
-                                
+                               let screenshotUrl = URL(string: screenshotUrlString),
+                               let genres = result["genres"] as? [String],
+                               let genre = genres.first,
+                               let trackContentRating = result["trackContentRating"] as? String
+                            {
                                 group.enter()
                                 
                                 queue.async(group: group) {
@@ -97,7 +97,11 @@ class SearchAppStoreAPI: ObservableObject{
                                                               screenshotImage: screenshotImage,
                                                               screenshotImageUrls: screenshotUrls,
                                                               releaseNotes: releaseNotes,
-                                                              description: description)
+                                                              description: description,
+                                                              genre: genre,
+                                                              trackContentRating: trackContentRating
+                                                              
+                                                )
                                                 
                                                 DispatchQueue.main.async(flags: .barrier) {
                                                     objc_sync_enter(apps)
@@ -184,7 +188,11 @@ class SearchAppStoreAPI: ObservableObject{
                                let description = result["description"] as? String,
                                let releaseNotes = result["releaseNotes"] as? String,
                                let screenshotUrlString = screenshotUrls.first,
-                               let screenshotUrl = URL(string: screenshotUrlString) {
+                               let screenshotUrl = URL(string: screenshotUrlString),
+                               let genres = result["genres"] as? [String],
+                               let genre = genres.first,
+                               let trackContentRating = result["trackContentRating"] as? String
+                            {
                                 
                                 group.enter()
                                 
@@ -199,7 +207,9 @@ class SearchAppStoreAPI: ObservableObject{
                                                               screenshotImage: screenshotImage,
                                                               screenshotImageUrls: screenshotUrls,
                                                               releaseNotes: releaseNotes,
-                                                              description: description)
+                                                              description: description,
+                                                              genre: genre,
+                                                              trackContentRating: trackContentRating)
                                                 
                                                 DispatchQueue.main.async(flags: .barrier) {
                                                     objc_sync_enter(apps)

@@ -396,7 +396,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
             
 //             TODO: 검색 중 검색했던 내용에서 일치하는게 있으면 그걸 검색하는 기능인 것 같은데 최근 검색 맨 위만 검색됌.
             
-            let searchText = searchHistory[indexPath.row]
+            let searchText = self.searchBar.text != "" ? filteredSearchHistory[indexPath.row] : searchHistory[indexPath.row]
             
             searchHistorySet(searchText)
             

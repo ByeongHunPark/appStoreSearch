@@ -17,6 +17,8 @@ struct App : Hashable{
     let screenshotImageUrls: [String]
     let releaseNotes: String
     let description: String
+    let genre: String
+    let trackContentRating: String
 }
 
 extension App : Equatable{
