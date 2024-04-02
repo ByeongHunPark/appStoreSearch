@@ -225,6 +225,11 @@ extension ViewController: UISearchBarDelegate {
     
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        // 학교
+        
+        searchBar.backgroundImage = UIImage()
+        searchBar.backgroundColor = UIColor.lightGray
+        
         print("searchBarTextDidBeginEditing")
         topView.isHidden = true
         
@@ -319,6 +324,11 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
         
         if tableView == self.tableView{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell", for: indexPath) as! SearchResultCell
+            
+            // 학교
+            cell.backgroundColor = .clear // 배경색을 투명으로 설정
+//            cell.layer.borderWidth = 0.0 // 테두리의 두께를 0으로 설정
+            
             
             let app = searchResults[indexPath.row]
             
