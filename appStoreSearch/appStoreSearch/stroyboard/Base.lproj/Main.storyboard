@@ -80,7 +80,10 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X0g-31-ZVJ">
-                                                    <rect key="frame" x="86" y="0.0" width="42" height="20.333333333333332"/>
+                                                    <rect key="frame" x="86" y="0.0" width="230" height="20.333333333333332"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="230" id="QaR-7X-9uB"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -235,6 +238,10 @@
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="hDO-QD-PmS">
                                 <rect key="frame" x="8" y="109" width="377" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <scopeButtonTitles>
+                                    <string>Title</string>
+                                    <string>Title</string>
+                                </scopeButtonTitles>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="6bs-kS-1Bg"/>
                                 </connections>
@@ -282,11 +289,11 @@
             <objects>
                 <viewController restorationIdentifier="DetailViewController" storyboardIdentifier="DetailViewController" id="au5-iQ-q0h" customClass="DetailViewController" customModule="appStoreSearch" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="br4-Y0-0Fy">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="1200"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="1910"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVE-4d-CXx">
-                                <rect key="frame" x="0.0" y="59" width="393" height="1107"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="1817"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z7v-kj-m8P">
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="736"/>
@@ -492,7 +499,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="디테일" id="KHi-Al-fcy"/>
-                    <size key="freeformSize" width="393" height="1200"/>
+                    <size key="freeformSize" width="393" height="1910"/>
                     <connections>
                         <outlet property="appIconImageView" destination="2NS-sf-QyI" id="MQE-54-IUG"/>
                         <outlet property="appNoteLabel" destination="3Qi-TU-2AL" id="UjY-tq-WTF"/>

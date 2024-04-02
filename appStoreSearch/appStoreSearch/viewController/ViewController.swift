@@ -207,7 +207,7 @@ class ViewController: UIViewController{
 extension ViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
+        print("textDidChange")
         if searchText.isEmpty || searchBar.text == "" {
             filteredSearchHistory = searchHistory
             headerUse = true
@@ -225,7 +225,7 @@ extension ViewController: UISearchBarDelegate {
     
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        
+        print("searchBarTextDidBeginEditing")
         topView.isHidden = true
         
         mainViewCheck()
@@ -239,7 +239,13 @@ extension ViewController: UISearchBarDelegate {
         cancelBtn.leadingAnchor.constraint(equalTo: searchBar.trailingAnchor, constant: -8).isActive = true
         
         headerUse = false
+        
+        if searchBar.text != "" {
+            filteredSearchHistory = searchHistory.filter { $0.lowercased().contains(searchBar.text!.lowercased()) }
+        }
+        
         historySearchTableView.tableHeaderView = nil
+        historySearchTableView.reloadData()
     }
     
     
@@ -258,6 +264,7 @@ extension ViewController: UISearchBarDelegate {
             searchAppStoreAPI.searchAppStore(with: searchText, offset: offset) { [weak self] results in
                 DispatchQueue.main.async {
                     self?.searchResults = results
+                    self?.headerUse = false
                     self?.topView.isHidden = true
                     self?.mainView.isHidden = true
                     self?.tableView.isHidden = false
@@ -267,14 +274,6 @@ extension ViewController: UISearchBarDelegate {
                 }
             }
             
-//            DispatchQueue.main.async {
-//                self.topView.isHidden = true
-//                self.mainView.isHidden = true
-//                self.tableView.isHidden = false
-//                self.view.isUserInteractionEnabled = true
-//                self.tableView.reloadData()
-//                self.indicatorStart(false)
-//            }
             
             searchHistorySet(searchText)
             
@@ -394,8 +393,6 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
             
         }else{
             
-//             TODO: 검색 중 검색했던 내용에서 일치하는게 있으면 그걸 검색하는 기능인 것 같은데 최근 검색 맨 위만 검색됌.
-            
             let searchText = self.searchBar.text != "" ? filteredSearchHistory[indexPath.row] : searchHistory[indexPath.row]
             
             searchHistorySet(searchText)
@@ -409,6 +406,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
                 DispatchQueue.main.async {
                     
                     self?.searchResults = results
+                    self?.headerUse = false
                     self?.mainView.isHidden = true
                     self?.tableView.isHidden = false
                     self?.view.isUserInteractionEnabled = true

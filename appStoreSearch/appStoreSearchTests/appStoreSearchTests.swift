@@ -30,7 +30,10 @@ final class appStoreSearchTests: XCTestCase {
                       screenshotImageUrls: ["https://is5-ssl.mzstatic.com/image/thumb/PurpleSource126/v4/ba/bd/56/babd56b3-f364-3e46-3cc2-d89e60fa7034/69c855e1-ed42-434b-95ea-197709f7eb82_ios_5.5_01.png/392x696bb.png",
                                             "https://is4-ssl.mzstatic.com/image/thumb/PurpleSource116/v4/80/11/81/801181f0-c238-7274-9603-514dfaf22ee4/23cd5522-2d10-468d-9fcc-d0b5f6e2bf69_ios_5.5_02.png/392x696bb.png"],
                       releaseNotes: "Release notes for Test App\nRelease notes for Test App\nRelease notes for Test App\nRelease notes for Test App\nRelease notes for Test App\n",
-                      description: "This is a test app.\nThis is a test app.\nThis is a test app.\nThis is a test app.\nThis is a test app.\nThis is a test app.\n")
+                      description: "This is a test app.\nThis is a test app.\nThis is a test app.\nThis is a test app.\nThis is a test app.\nThis is a test app.\n",
+                      genre: "software",
+                      trackContentRating: "4+"
+        )
         
         detailViewController.app = app
         
