@@ -38,8 +38,7 @@ class SearchAppStoreAPI: ObservableObject{
         
         let countryCode = "kr"
         
-        let urlString = "https://itunes.apple.com/search?term=\(encodedTerm)&country=\(countryCode)&entity=software&limit=5&offset=\(offset)"
-//        let urlString = "https://itunes.apple.com/search?term=카카오톡&country=kr&entity=software&limit=1&offset=0"
+        let urlString = "https://itunes.apple.com/search?term=\(encodedTerm)&country=\(countryCode)&media=software&limit=5&offset=\(offset)"
         
         guard let url = URL(string: urlString) else {
             completion([])
@@ -66,8 +65,6 @@ class SearchAppStoreAPI: ObservableObject{
                         
                         let group = DispatchGroup()
                         let queue = DispatchQueue(label: "imageDownloadQueue", attributes: .concurrent)
-                        
-                        
                         
                         for result in results {
                             if let name = result["trackName"] as? String,
@@ -136,6 +133,7 @@ class SearchAppStoreAPI: ObservableObject{
                     completion([])
                 }
             }
+        
     }
     
     func addSearch(with term: String, offset: Int, app: [App] ,completion: @escaping ([App]) -> Void) {
@@ -242,7 +240,6 @@ class SearchAppStoreAPI: ObservableObject{
                             }
                             
                             completion(removeDuplicate)
-                            
                         }
                         
                     }catch {
@@ -255,8 +252,6 @@ class SearchAppStoreAPI: ObservableObject{
                 }
             }
     }
-    
-    
 }
 
 /* MARK: API Json
