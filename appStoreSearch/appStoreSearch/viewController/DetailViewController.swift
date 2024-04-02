@@ -24,6 +24,9 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var releaseLabel: UILabel!
     @IBOutlet weak var appNoteLabel: UILabel!
     
+    // TODO: 별점, 분류 연령 추가하기
+    
+    
     var app: App!
     
     var CosmosSetting = CosmosSettings()

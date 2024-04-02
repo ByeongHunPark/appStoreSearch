@@ -24,7 +24,7 @@
 		6C029C0F2A505BEF00DC2FB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6C029C0D2A505BEF00DC2FB5 /* LaunchScreen.storyboard */; };
 		6C029C172A505DE200DC2FB5 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C029C162A505DE200DC2FB5 /* SearchResultCell.swift */; };
 		6C029C192A505DFE00DC2FB5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C029C182A505DFE00DC2FB5 /* DetailViewController.swift */; };
-		6C029C1B2A505E1C00DC2FB5 /* appModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C029C1A2A505E1C00DC2FB5 /* appModel.swift */; };
+		6C029C1B2A505E1C00DC2FB5 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C029C1A2A505E1C00DC2FB5 /* AppModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +55,7 @@
 		6C029C102A505BEF00DC2FB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6C029C162A505DE200DC2FB5 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		6C029C182A505DFE00DC2FB5 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		6C029C1A2A505E1C00DC2FB5 /* appModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = appModel.swift; sourceTree = "<group>"; };
+		6C029C1A2A505E1C00DC2FB5 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		6C029C212A50605100DC2FB5 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
@@ -110,7 +110,7 @@
 		14DE52022A552D980091D1FE /* model */ = {
 			isa = PBXGroup;
 			children = (
-				6C029C1A2A505E1C00DC2FB5 /* appModel.swift */,
+				6C029C1A2A505E1C00DC2FB5 /* AppModel.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -314,7 +314,7 @@
 				6C029C032A505BED00DC2FB5 /* AppDelegate.swift in Sources */,
 				6C029C192A505DFE00DC2FB5 /* DetailViewController.swift in Sources */,
 				14DE52072A5532620091D1FE /* extension.swift in Sources */,
-				6C029C1B2A505E1C00DC2FB5 /* appModel.swift in Sources */,
+				6C029C1B2A505E1C00DC2FB5 /* AppModel.swift in Sources */,
 				6C029C172A505DE200DC2FB5 /* SearchResultCell.swift in Sources */,
 				6C029C052A505BED00DC2FB5 /* SceneDelegate.swift in Sources */,
 			);

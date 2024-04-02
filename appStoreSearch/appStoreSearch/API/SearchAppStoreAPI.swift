@@ -30,7 +30,7 @@ class SearchAppStoreAPI: ObservableObject{
     }
     
     func searchAppStore(with term: String, offset: Int,completion: @escaping ([App]) -> Void) {
-        print("searchAppStore")
+        
         guard let encodedTerm = term.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
             completion([])
             return
@@ -137,7 +137,7 @@ class SearchAppStoreAPI: ObservableObject{
     }
     
     func addSearch(with term: String, offset: Int, app: [App] ,completion: @escaping ([App]) -> Void) {
-        print("addSearch")
+        
         var removeDuplicate : [App] = []
         var uniqueNames: Set<String> = []
         

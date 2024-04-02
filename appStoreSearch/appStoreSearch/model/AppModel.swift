@@ -1,5 +1,5 @@
 //
-//  appModel.swift
+//  AppModel.swift
 //  appStoreSearch
 //
 //  Created by 박병훈 on 2023/07/01.
