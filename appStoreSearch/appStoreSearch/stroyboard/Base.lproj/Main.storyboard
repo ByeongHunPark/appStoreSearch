@@ -62,7 +62,7 @@
                                 </constraints>
                             </view>
                             <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="tableView" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="2sK-LE-b0B">
-                                <rect key="frame" x="8" y="165" width="377" height="653"/>
+                                <rect key="frame" x="8" y="165" width="377" height="604"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchResultCell" rowHeight="443" id="O0C-1j-xaT" customClass="SearchResultCell" customModule="appStoreSearch" customModuleProvider="target">
@@ -173,10 +173,10 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Piw-qa-WTL">
-                                <rect key="frame" x="0.0" y="165" width="393" height="653"/>
+                                <rect key="frame" x="0.0" y="165" width="393" height="604"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="tableView2" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="kUs-fg-Apz">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="653"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="604"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchHistoryCell" rowHeight="42" id="bWM-Mq-aH2" customClass="SearchHistoryCell" customModule="appStoreSearch" customModuleProvider="target">
@@ -274,14 +274,13 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Piw-qa-WTL" secondAttribute="bottom" id="BTU-aW-7oD"/>
+                            <constraint firstItem="AnG-SB-Q9U" firstAttribute="top" secondItem="Piw-qa-WTL" secondAttribute="bottom" id="5fj-2K-0M9"/>
                             <constraint firstItem="9US-Da-PCE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="E1o-Kl-FtE"/>
                             <constraint firstAttribute="bottom" secondItem="AnG-SB-Q9U" secondAttribute="bottom" id="Eq6-Op-D2x"/>
                             <constraint firstItem="hDO-QD-PmS" firstAttribute="top" secondItem="9US-Da-PCE" secondAttribute="bottom" id="H0O-md-cBH"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Piw-qa-WTL" secondAttribute="trailing" id="LPM-wg-FkO"/>
                             <constraint firstItem="hDO-QD-PmS" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-8" id="MOa-Sf-mFb"/>
                             <constraint firstItem="9US-Da-PCE" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="QA4-FU-YVc"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="2sK-LE-b0B" secondAttribute="bottom" id="TIK-F1-502"/>
                             <constraint firstItem="2sK-LE-b0B" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="Uob-x6-Q1l"/>
                             <constraint firstItem="Piw-qa-WTL" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Xyu-Zp-OcL"/>
                             <constraint firstItem="hDO-QD-PmS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="bdK-4I-KRe"/>
@@ -290,6 +289,7 @@
                             <constraint firstItem="hDO-QD-PmS" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="jdZ-R3-UBs"/>
                             <constraint firstItem="2sK-LE-b0B" firstAttribute="top" secondItem="hDO-QD-PmS" secondAttribute="bottom" id="n1O-hY-hkD"/>
                             <constraint firstItem="9US-Da-PCE" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="nD4-Dr-AZR"/>
+                            <constraint firstItem="AnG-SB-Q9U" firstAttribute="top" secondItem="2sK-LE-b0B" secondAttribute="bottom" id="oxn-j7-qOM"/>
                             <constraint firstItem="Nw1-Xq-VQz" firstAttribute="centerY" secondItem="hDO-QD-PmS" secondAttribute="centerY" id="sTz-zf-i0g"/>
                             <constraint firstItem="Piw-qa-WTL" firstAttribute="top" secondItem="hDO-QD-PmS" secondAttribute="bottom" id="tBG-ll-DIf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Nw1-Xq-VQz" secondAttribute="trailing" constant="8" id="v6U-9f-TNC"/>
@@ -322,7 +322,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RVE-4d-CXx">
-                                <rect key="frame" x="0.0" y="59" width="393" height="1817"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="1768"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z7v-kj-m8P">
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="774"/>
@@ -620,11 +620,11 @@
                         <constraints>
                             <constraint firstItem="U1y-1X-5dz" firstAttribute="leading" secondItem="gc6-U7-AY0" secondAttribute="leading" id="448-Pp-hI2"/>
                             <constraint firstItem="gc6-U7-AY0" firstAttribute="trailing" secondItem="RVE-4d-CXx" secondAttribute="trailing" id="AaX-8r-hsO"/>
-                            <constraint firstItem="RVE-4d-CXx" firstAttribute="bottom" secondItem="gc6-U7-AY0" secondAttribute="bottom" id="BLC-jR-K71"/>
                             <constraint firstItem="RVE-4d-CXx" firstAttribute="top" secondItem="gc6-U7-AY0" secondAttribute="top" id="E0u-iA-EBx"/>
                             <constraint firstItem="RVE-4d-CXx" firstAttribute="leading" secondItem="gc6-U7-AY0" secondAttribute="leading" id="JdW-ep-RVJ"/>
                             <constraint firstAttribute="trailing" secondItem="U1y-1X-5dz" secondAttribute="trailing" id="Tcd-w3-kOu"/>
                             <constraint firstAttribute="bottom" secondItem="U1y-1X-5dz" secondAttribute="bottom" id="j7q-Dq-bZd"/>
+                            <constraint firstItem="U1y-1X-5dz" firstAttribute="top" secondItem="RVE-4d-CXx" secondAttribute="bottom" id="lMI-e0-JS9"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="디테일" id="KHi-Al-fcy"/>
