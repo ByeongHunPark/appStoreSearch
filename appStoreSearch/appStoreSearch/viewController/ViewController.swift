@@ -18,7 +18,7 @@ class ViewController: UIViewController{
     
     @IBOutlet weak var tabView: UIView!
     @IBOutlet weak var tabbar: UITabBar!
-        
+    
     let searchAppStoreAPI = SearchAppStoreAPI.shared
     
     var searchResults: [App] = []
@@ -75,6 +75,7 @@ class ViewController: UIViewController{
         historySearchTableView.keyboardDismissMode = .onDrag
         
         tabbar.selectedItem = tabbar.items?[4]
+        
         
         searchBar.searchBarStyle = .minimal
         
@@ -473,4 +474,13 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
         
     }
     
+}
+
+extension ViewController: UITabBarDelegate{
+    
+    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if tabBar.selectedItem == tabBar.items?[4]{
+            cancelBtnClicked(self)
+        }
+    }
 }

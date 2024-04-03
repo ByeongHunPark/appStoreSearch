@@ -259,6 +259,9 @@
                                             <tabBarItem title="아케이드" image="arcade.stick.console" catalog="system" id="kJO-8z-pBU"/>
                                             <tabBarItem title="검색" image="magnifyingglass" catalog="system" id="BEW-TR-KlS"/>
                                         </items>
+                                        <connections>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="5Vc-LO-dzT"/>
+                                        </connections>
                                     </tabBar>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -603,6 +606,9 @@
                                             <tabBarItem title="아케이드" image="arcade.stick.console" catalog="system" id="984-zS-7yc"/>
                                             <tabBarItem title="검색" image="magnifyingglass" catalog="system" id="BYc-Iu-Dc8"/>
                                         </items>
+                                        <connections>
+                                            <outlet property="delegate" destination="au5-iQ-q0h" id="ExR-bc-UIg"/>
+                                        </connections>
                                     </tabBar>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>

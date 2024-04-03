@@ -112,7 +112,6 @@ class DetailViewController: UIViewController {
         downloadBtn.layer.cornerRadius = 10
         
         tabbar.selectedItem = tabbar.items?[4]
-        
     }
     
     func truncatedText(_ text: String, maxLines: Int) -> String {
@@ -205,4 +204,16 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     
     
     
+}
+
+extension DetailViewController: UITabBarDelegate{
+    
+    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if tabBar.selectedItem == tabBar.items?[4]{
+            navigationController?.popViewController(animated: true)
+        }
+//        else{
+//            tabBar.selectedItem = tabBar.items?[4]
+//        }
+    }
 }
