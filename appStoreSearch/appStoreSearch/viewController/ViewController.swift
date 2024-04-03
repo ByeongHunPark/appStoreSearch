@@ -16,6 +16,9 @@ class ViewController: UIViewController{
     @IBOutlet weak var historySearchTableView: UITableView!
     @IBOutlet weak var cancelBtn: UIButton!
     
+    @IBOutlet weak var tabView: UIView!
+    @IBOutlet weak var tabbar: UITabBar!
+        
     let searchAppStoreAPI = SearchAppStoreAPI.shared
     
     var searchResults: [App] = []
@@ -71,6 +74,7 @@ class ViewController: UIViewController{
         tableView.keyboardDismissMode = .onDrag
         historySearchTableView.keyboardDismissMode = .onDrag
         
+        tabbar.selectedItem = tabbar.items?[4]
         
         searchBar.searchBarStyle = .minimal
         
@@ -207,7 +211,6 @@ class ViewController: UIViewController{
 extension ViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print("textDidChange")
         if searchText.isEmpty || searchBar.text == "" {
             filteredSearchHistory = searchHistory
             headerUse = true
@@ -225,12 +228,6 @@ extension ViewController: UISearchBarDelegate {
     
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        // 학교
-        
-        searchBar.backgroundImage = UIImage()
-        searchBar.backgroundColor = UIColor.lightGray
-        
-        print("searchBarTextDidBeginEditing")
         topView.isHidden = true
         
         mainViewCheck()
@@ -324,12 +321,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
         
         if tableView == self.tableView{
             let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell", for: indexPath) as! SearchResultCell
-            
-            // 학교
-            cell.backgroundColor = .clear // 배경색을 투명으로 설정
-//            cell.layer.borderWidth = 0.0 // 테두리의 두께를 0으로 설정
-            
-            
+                      
             let app = searchResults[indexPath.row]
             
             cell.selectionStyle = .none
@@ -464,7 +456,6 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
         addSearch = false
         view.isUserInteractionEnabled = false
         offset = offset + 5
-        print("offset \(offset)")
         
         guard let searchText = searchBar.text else { return }
         

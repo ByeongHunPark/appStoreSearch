@@ -109,8 +109,6 @@ extension SearchResultCell: UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("collectionView click")
-        
         delegate?.searchResultCell(self, didSelectItemAt: indexPath)
     }
     

@@ -24,7 +24,14 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var releaseLabel: UILabel!
     @IBOutlet weak var appNoteLabel: UILabel!
     
-    // TODO: 별점, 분류 연령 추가하기
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var contentRatingView: CosmosView!
+    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet weak var countUserLabel: UILabel!
+    @IBOutlet weak var genreLabel: UILabel!
+    @IBOutlet weak var trackContentRatingLabel: UILabel!
+    
+    @IBOutlet weak var tabbar: UITabBar!
     
     
     var app: App!
@@ -60,6 +67,13 @@ class DetailViewController: UIViewController {
         
         ratingView.rating = app.rating
         ratingView.text = formatNumber(app.userRatingCount)
+        
+        contentRatingView.rating = app.rating
+        ratingLabel.text = String(format: "%.1f", app.rating)
+        countUserLabel.text = "\(formatNumber(app.userRatingCount))개의 평가"
+        genreLabel.text = app.genre
+        trackContentRatingLabel.text = app.trackContentRating
+        
         
         releaseLabel.text = "새로운 기능"
         appNoteLabel.text = "앱 설명"
@@ -97,6 +111,7 @@ class DetailViewController: UIViewController {
         downloadBtn.isUserInteractionEnabled = false
         downloadBtn.layer.cornerRadius = 10
         
+        tabbar.selectedItem = tabbar.items?[4]
         
     }
     
@@ -118,6 +133,7 @@ class DetailViewController: UIViewController {
         CosmosSetting.textFont = UIFont.systemFont(ofSize: 13)
         
         ratingView.settings = CosmosSetting
+        contentRatingView.settings = CosmosSetting
     }
     
     @IBAction func noteMoreBtnClicked(_ sender: Any) {

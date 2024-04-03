@@ -50,7 +50,6 @@ class SearchAppStoreAPI: ObservableObject{
             .responseData { response in
                 switch response.result{
                 case .success(let data):
-                    print("Success")
                     do{
                         let json = try JSON(data: data)
                         
@@ -58,8 +57,6 @@ class SearchAppStoreAPI: ObservableObject{
                             completion([])
                             return
                         }
-                        
-                        print(json)
                         
                         var apps = [App]()
                         
@@ -162,7 +159,6 @@ class SearchAppStoreAPI: ObservableObject{
             .responseData { response in
                 switch response.result{
                 case .success(let data):
-                    print("Success")
                     do{
                         let json = try JSON(data: data)
                         
