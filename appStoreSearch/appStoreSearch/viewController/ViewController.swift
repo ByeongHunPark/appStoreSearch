@@ -266,9 +266,6 @@ extension ViewController: UISearchBarDelegate {
             searchAppStoreAPI.searchAppStore(with: searchText, offset: offset) { [weak self] results in
                 DispatchQueue.main.async {
                     self?.searchResults = results
-                    self?.headerUse = false
-                    self?.topView.isHidden = true
-                    self?.mainView.isHidden = true
                     self?.tableView.isHidden = false
                     self?.view.isUserInteractionEnabled = true
                     self?.tableView.reloadData()
@@ -276,6 +273,7 @@ extension ViewController: UISearchBarDelegate {
                 }
             }
             
+            mainView.isHidden = true
             
             searchHistorySet(searchText)
             
@@ -409,7 +407,6 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
                     
                     self?.searchResults = results
                     self?.headerUse = false
-                    self?.mainView.isHidden = true
                     self?.tableView.isHidden = false
                     self?.view.isUserInteractionEnabled = true
                     self?.tableView.reloadData()
@@ -419,7 +416,6 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate, SearchResu
             
             topView.isHidden = true
             mainView.isHidden = true
-            tableView.isHidden = false
             
             cancelBtn.isHidden = false
             
